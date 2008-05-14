@@ -1,0 +1,12 @@
+import(globaltest)
+
+import(marray)
+
+import(quantsmooth)
+
+import(clac)
+
+export(assemble.data, integrated.analysis, sim.plot.pvals.on.genome, tabulate.pvals,
+sim.plot.pvals.on.region, sim.plot.zscore.heatmap, tabulate.top.dep.features, 
+tabulate.top.indep.features, sim.update.chrom.table, link.metadata, RESOURCERER.annotation.to.ID,
+impute.nas.by.surrounding)
