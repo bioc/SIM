@@ -4,7 +4,7 @@ Title: Integrated Analysis of gene expression and copynumber data
 Version: 1.9.0
 Date: 2008-04-09
 Author: Renee X. de Menezes and Judith M. Boer
-Maintainer: Marten Boetzer <mboetzer86@hotmail.com>
+Maintainer: Maarten van Iterson <M.van_Iterson.HG@lumc.nl>
 Depends: R (>= 2.4), fields, globaltest, marray, quantsmooth, clac
 Description: Finds associations between DNA copy number and gene expression.
 License: GPL (>= 2)
