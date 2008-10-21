@@ -1,7 +1,7 @@
 Package: SIM
 Type: Package
 Title: Integrated Analysis of gene expression and copynumber data
-Version: 1.10.0
+Version: 1.11.0
 Date: 2008-04-09
 Author: Renee X. de Menezes and Judith M. Boer
 Maintainer: Maarten van Iterson <M.van_Iterson.HG@lumc.nl>
