@@ -29,10 +29,7 @@ quantsmooth.heatmap(input.region, dep.data, lambda, run.name)
 \references{Jan Oosting, Paul Eilers and Renee Menezes (2006). quantsmooth: Quantile smoothing and
   genomic visualization of array data. R package version 1.2.0.}
 \author{Marten Boetzer, Renee X. de Menezes  \email{R.X.Menezes@lumc.nl}}
-\note{ further notes 
 
- Make other sections like Warning with \section{Warning }{....}  
-}
 \seealso{\code{\link{heatmap.with.plot}},\code{\link{sim.plot.zscore.heatmap}},\code{\link[quantsmooth]{quantsmooth}} }
 \examples{
 #

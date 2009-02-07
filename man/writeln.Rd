@@ -26,10 +26,7 @@ writeln(txt = "", ...)
 }
 \references{  put references to the literature/web site here   }
 \author{Marten Boetzer, Renee X. de Menezes  \email{R.X.Menezes@lumc.nl}}
-\note{   further notes   
 
-  Make other sections like Warning with \section{Warning }{....} 
-}
 \seealso{   objects to See Also as \code{\link{help}} }
 \examples{
 #

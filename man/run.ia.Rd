@@ -28,10 +28,7 @@ run.ia(indep.chr.matrix, dep.chr.matrix, subtype, zscores, method = c("auto", "a
 }
 \references{ put references to the literature/web site here  }
 \author{Marten Boetzer, Renee X. de Menezes  \email{R.X.Menezes@lumc.nl}}
-\note{ further notes 
 
- Make other sections like Warning with \section{Warning }{....} 
-}
 \seealso{\code{\link{integrated.analysis}},\code{\link[globaltest]{globaltest}}}
 \examples{
 #
