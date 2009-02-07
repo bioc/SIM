@@ -57,7 +57,7 @@ heatmap.with.plot(dep.data, input.region = input.region, plot.method = plot.meth
 \author{Marten Boetzer, Renee X. de Menezes  \email{R.X.Menezes@lumc.nl}}
 \note{ further notes 
 
- Make other sections like Warning with \section{Warning }{....} 
+ Make other sections like Warning with \\section\{Warning\}\{...\} 
 }
 \seealso{ objects to See Also as \code{\link{sim.plot.zscore.heatmap}}}
 \examples{

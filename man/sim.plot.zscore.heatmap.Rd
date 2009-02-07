@@ -122,8 +122,10 @@ the significant dependent probes lower than \code{significance} to the right of 
 }
 \value{No values are returned. The results are stored in a subdirectory of \code{run.name} as pdf.}
 
-\references{\item{1}{Eilers PH, de Menezes RX. Quantile smoothing of array CGH data. Bioinformatics. 2005 Apr 1;21(7):1146-53.} 
-\item{2}{Wang P, Kim Y, Pollack J, Narasimhan B, Tibshirani R. A method for calling gains and losses in array CGH data. Biostatistics. 2005; 6:45-58.}
+\references{
+Eilers PH, de Menezes RX. Quantile smoothing of array CGH data. Bioinformatics. 2005 Apr 1;21(7):1146-53. 
+
+Wang P, Kim Y, Pollack J, Narasimhan B, Tibshirani R. A method for calling gains and losses in array CGH data. Biostatistics. 2005; 6:45-58.
 }
 
 \author{Marten Boetzer, Melle Sieswerda, Renee X. de Menezes  \email{R.X.Menezes@lumc.nl}}

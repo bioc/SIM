@@ -28,7 +28,7 @@ get.pvals(input.regions, run.name)
 
 \note{ further notes 
 
- Make other sections like Warning with \section{Warning }{....} 
+ Make other sections like Warning with \\section\{Warning\}\{...\} 
 }
 \seealso{\code{\link{sim.plot.pvals.on.region}},\code{\link{sim.plot.pvals.on.genome}}, 
 \code{\link{sim.plot.adj.pvals}}, \code{\link{sim.plot.zscore.heatmap}}, 

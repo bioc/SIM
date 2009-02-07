@@ -31,10 +31,9 @@ acgh.heatmap.with.heatmap(subtype, input.region, scale.heatmap, run.name)
 \author{Marten Boetzer, Renee X. de Menezes  \email{R.X.Menezes@lumc.nl}}
 
 \note{ further notes 
-
- Make other sections like Warning with \section{Warning }{....} 
+ Make other sections like Warning with \\section\{Warning\}\{....\} 
 }
-\seealso{\code{\link{sim.plot.zscore.heatmap}},\code{\link{heatmap.with.plot}} }
+\seealso{\code{\link{sim.plot.zscore.heatmap}}, \code{\link{heatmap.with.plot}} }
 \examples{
 #
 }

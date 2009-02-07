@@ -30,7 +30,7 @@ create.color.vector(my.class, levels = NULL, color.vector = NULL, my.start = 0, 
 
 \note{ further notes 
 
- Make other sections like Warning with \section{Warning }{....} 
+ Make other sections like Warning with \\section\{Warning\}\{...\} 
 }
 \seealso{ objects to See Also as \code{\link{sim.plot.zscore.heatmap}}}
 \examples{

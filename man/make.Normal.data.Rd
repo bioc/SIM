@@ -31,7 +31,7 @@ make.Normal.data(data)
 
 \note{ further notes 
 
- Make other sections like Warning with \section{Warning }{....} 
+ Make other sections like Warning with \\section\{Warning\}\{...\}
 }
 \seealso{\code{\link{heatmap.with.clac.plot}}}
 \examples{

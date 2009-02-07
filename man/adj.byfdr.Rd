@@ -27,7 +27,7 @@ in multiple testing under dependency. ANN STAT 29 (4): 1165-1188.}
 \author{Marten Boetzer, Renee X. de Menezes  \email{R.X.Menezes@lumc.nl}}
 \note{ further notes 
 
- Make other sections like Warning with \section{Warning }{....} 
+ Make other sections like Warning with \\section\{Warning\}\{...\} 
 }
 \seealso{\code{\link{sim.plot.pvals.on.region}},\code{\link{sim.plot.pvals.on.genome}}, 
 \code{\link{sim.plot.adj.pvals}}, \code{\link{sim.plot.zscore.heatmap}}, 

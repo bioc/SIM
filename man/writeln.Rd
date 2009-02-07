@@ -28,9 +28,9 @@ writeln(txt = "", ...)
 \author{Marten Boetzer, Renee X. de Menezes  \email{R.X.Menezes@lumc.nl}}
 \note{   further notes   
 
-  Make other sections like Warning with \section{Warning }{....}  
+  Make other sections like Warning with \section{Warning }{....} 
 }
-\seealso{   objects to See Also as \code{\link{help}},     }
+\seealso{   objects to See Also as \code{\link{help}} }
 \examples{
 #
 }

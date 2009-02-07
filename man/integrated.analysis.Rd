@@ -65,8 +65,11 @@
   \item{3) }{\code{\link{tabulate.top.indep.features}} (txt, only possible when zscores=TRUE}
 }
 
-\references{\item{1}{Goeman JJ, van de Geer SA, de Kort F, van Houwelingen HC. 
-A global test for groups of genes: testing association with a clinical outcome. Bioinformatics. 2004; 20:93-109}}
+\references{
+Goeman JJ, van de Geer SA, de Kort F, van Houwelingen HC. 
+A global test for groups of genes: testing association with a clinical
+outcome. \emph{Bioinformatics} 2004; 20:93-109
+}
 
 
 \author{Marten Boetzer, Melle Sieswerda, Renee X. de Menezes  \email{R.X.Menezes@lumc.nl}}
