@@ -1,11 +1,11 @@
 Package: SIM
 Type: Package
 Title: Integrated Analysis of gene expression and copynumber data
-Version: 1.11.1
+Version: 1.11.2
 Author: Renee X. de Menezes and Judith M. Boer
 Maintainer: Maarten van Iterson <M.van_Iterson.HG@lumc.nl>
 Depends: R (>= 2.4), fields, globaltest, marray, quantsmooth, clac, multtest
 Description: Finds associations between DNA copy number and gene expression.
 License: GPL (>= 2)
-biocViews: Microarray, DNACopyNumber, Statistics, Visualization
+biocViews: Microarray, DNACopyNumber, Bioinformatics, Visualization
 URL: http://www.humgen.nl/MicroarrayAnalysisGroup.html
