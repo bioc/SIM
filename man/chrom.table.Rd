@@ -1,27 +1,36 @@
 \name{chrom.table}
+
 \alias{chrom.table}
+
 \docType{data}
-\title{Table with chromosome arm positions}
+
+\title{Table with chromosome information}
+
 \description{
-   A table indicating the base positions of the beginning and end of chromosome arms. 
-   Currently based on the UCSC March 2006 / NCBI 36 build of the human genome.
+	A table indicating the base positions of the beginning and end of chromosome arms and bands. 
+   	Currently based on the UCSC March 2006/NCBI 36 build of the human genome.
 }
-\usage{data(chrom.table)}
+
+\usage{
+	data(chrom.table)
+}
+
 \format{
-  A data frame with 48 observations on the following 6 variables.
-  \describe{describe}
+	A data frame with 862 observations on the following 6 variables.
+  	\describe{chr, arm, band, start, end, stain}
 }
+
 \details{
-   If necessary, more details than the description above 
+	Possibly the \code{chrom.table} can be update by \link{sim.update.chrom.table}.
+   	Currently only human genome support without mitochondrial DNA. 
 }
-\source{
-   reference to a publication or URL from which the data were obtained 
+
+\seealso{
+	\link{sim.update.chrom.table}
 }
-\references{
-   possibly secondary sources and usages 
-}
+
 \examples{
-data(chrom.table)
-## maybe str(chrom.table) ; plot(chrom.table) ...
+	data(chrom.table)
 }
+
 \keyword{datasets}

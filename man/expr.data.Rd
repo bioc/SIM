@@ -1,26 +1,40 @@
 \name{expr.data}
+
 \alias{expr.data}
+
 \docType{data}
+
 \title{Expression data example}
+
 \description{
-   Expression log ratios derived from Pollack et al. 2002 PNAS 99:12963-8. 
+	Expression data taken from Pollack et al. PNAS. 2002, 99(20): 12963-8.
 }
-\usage{data(expr.data)}
+
+\usage{
+	data(expr.data)
+}
+
 \format{
-  A data frame with 4865 observations on the following 45 variables.
-  \describe{describe}
+  	A data frame with 99 observations on 45 variables. The first 4 columns are the unique identifier, symbol
+  	for the chromosome and start position of the probe the next 41 columns are the expression log-ratios of 41 samples. 
 }
+
 \details{
-   If necessary, more details than the description above 
+   	A subset of the original data is taken namely all the probes on the long arm of chromosome 8.	 
 }
+
 \source{
-   reference to a publication or URL from which the data were obtained 
+	\url{http://genome-www.stanford.edu/aCGH_breast/data.shtml} 
 }
+
 \references{
-   possibly secondary sources and usages 
+Pollack JR, Sorlie T, Perou CM, Rees CA, Jeffrey SS, Lonning PE, Tibshirani R, Botstein D, Borresen-Dale AL, Brown PO (2002).
+Microarray analysis reveals a major direct role of DNA copy number alteration in the transcriptional program of human breast tumors.
+\emph{Proc Natl Acad Sci USA}. \bold{1}, 99(20), 12963-8. 	 
 }
+
 \examples{
-data(expr.data)
-## maybe str(expr.data) ; plot(expr.data) ...
+	data(expr.data)
 }
+
 \keyword{datasets}

@@ -1,7 +1,9 @@
 \name{sim.update.chrom.table}
+
 \alias{sim.update.chrom.table}
 
-\title{sim.update.chrom.table}
+\title{Update the chromomosome table}
+
 \description{
    A function to update the genomic positions of chromosome arms. Base locations 
    of the start and end of chromosome arms should be used from the same 
@@ -9,28 +11,35 @@
    the datasets.
 }
 \usage{
-sim.update.chrom.table(db = "homo_sapiens_core_40_36b")
+	sim.update.chrom.table(db = "homo_sapiens_core_40_36b")
 }
 
 \arguments{
-  \item{db}{ Describe \code{db} here }
+  \item{db}{database name}
 }
-\details{
-   If necessary, more details than the description above 
-}
-\value{
-  Describe the value returned
-  If it is a LIST, use
-  \item{comp1 }{Description of 'comp1'}
-  \item{comp2 }{Description of 'comp2'}
 
+\details{
+   This functions requires \link[RMySQL]{RMySQL}. Currently \link{SIM} only supports integrated analysis on the 
+   human genome without mitochondrial DNA.  
 }
-\references{ www.ensembl.org  }
+
+\value{
+	Chromosome table \link{chrom.table}.
+}
+
+\references{\url{http://www.ensembl.org/info/data/mysql.html}}
+
 \author{Marten Boetzer, Renee X. de Menezes  \email{R.X.Menezes@lumc.nl}}
 
-\seealso{ objects to See Also as \code{\link{help}}}
-\examples{
-#
+\seealso{
+\link{SIM},
+\link{chrom.table}
 }
-\keyword{internal}
+
+\examples{
+#youn need internet connection for this!
+#sim.update.chrom.table(db = "homo_sapiens_core_40_36b")
+}
+
+\keyword{database}
 
