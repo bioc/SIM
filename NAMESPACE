@@ -1,12 +1,60 @@
-import(globaltest)
+importFrom(stats, 
+           p.adjust)
 
-import(marray)
+importFrom(grDevices,
+           pdf, 
+           dev.off)
 
-import(quantsmooth)
+importFrom(graphics, 
+           image,
+           hist, 
+           segments, 
+           rect, 
+           polygon, 
+           matplot, 
+           matlines,           
+           plot,
+           lines,           
+           abline,
+           points,
+           axis,
+           axTicks,
+           title,
+           mtext,
+           legend,
+           layout,
+           par,
+           locator,
+           plot.new,
+           plot.window)
 
-import(clac)
+importFrom(globaltest,  
+           gt.options, 
+           gt, 
+           size, 
+           p.value)
 
-export(assemble.data, integrated.analysis, sim.plot.pvals.on.genome, tabulate.pvals,
-sim.plot.pvals.on.region, sim.plot.zscore.heatmap, tabulate.top.dep.features, 
-tabulate.top.indep.features, sim.update.chrom.table, link.metadata, RESOURCERER.annotation.to.ID,
-impute.nas.by.surrounding)
+importMethodsFrom(globaltest, 
+                  summary)
+
+importFrom(quantsmooth, 
+           quantsmooth)
+
+export(assemble.data, 
+       integrated.analysis, 
+       sim.plot.pvals.on.genome, 
+       tabulate.pvals,
+       sim.plot.pvals.on.region, 
+       sim.plot.zscore.heatmap,       
+       sim.plot.overlapping.indep.dep.features, 
+       tabulate.top.dep.features, 
+       tabulate.top.indep.features, 
+       sim.update.chrom.table,
+       sim.plot.zoom.in, 
+       link.metadata, 
+       RESOURCERER.annotation.to.ID,
+       impute.nas.by.surrounding, 
+       getoverlappingregions)
+       
+       
+       
