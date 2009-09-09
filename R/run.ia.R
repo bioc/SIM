@@ -1,139 +1,106 @@
-`run.ia` <-
-function(indep.chr.matrix, dep.chr.matrix, subtype, zscores, method =  c("auto", "asymptotic", "permutations", "gamma")) {
-  
-  #
-  # Create matrices where results of the globaltest will be stored in.
-  #
-  # Create a matrix to hold, for each dependent feature, the processed z-scores that
-  # indicate how each independent features influences the dependent feature's p-value.
-  # Rows correspond to dependent features.
-  gene.proc.zscores = array(0, dim = c(nrow(dep.chr.matrix), nrow(indep.chr.matrix)))
-  
-  # Create a matrix to hold colors. "1" indicates a positive correlation
-  # with a feature and "2' indicates a negative correlation.
-  # Rows correspond to dependent features.
-  gene.proc.zscores.col = array(0, dim = c(nrow(dep.chr.matrix), nrow(indep.chr.matrix)))
-  
-
-  
-  # List to hold one p-value for each feature.
-  p.values = rep(0, nrow(dep.chr.matrix))
-  
-  # Create variables used for estimating the time to completion.
-  time.left = Inf
-  time.single.iteration = Inf
-    
-  #
-  # Run the globaltest for every aCGH feature.
-  #
-  
-  nrows = nrow(dep.chr.matrix)
-  time.start = proc.time()[3]
-  
-  for(idx in 1:nrows) {
-    
-    # Determine the time left.
-    time.left = time.single.iteration * (nrows - idx)
-    
-    # Store the current time ...
-    time.start.iteration = proc.time()[3]
-    
-  
-    # Print progress every 10 features.
-    if (idx %% 10 == 0) {
-      time.left.minutes = floor(time.left / 60)
-      time.left.seconds = time.left - (time.left.minutes*60)
-      
-      writeln("  feature %i/%i, time left: %2.0f minutes, %2.0f seconds", 
-              idx, nrows, time.left.minutes, time.left.seconds)
-    }       
-    
-    
-    # Run the globaltest for one aCGH feature. and calculate the influence of
-    # all the genes on it. If "subtype" has more than one level, it is used as
-    # a confounder.
-    current.feature = dep.chr.matrix[idx, ]
-    
-    method = match.arg(method, c("auto", "asymptotic", "permutations", "gamma"))
-
-	if(class(subtype) == "formula"){
-current.gt = globaltest(indep.chr.matrix, current.feature, 	method=method, adjust=subtype)}
-    
-     else if(length(subtype) ==1) {
-	if(subtype==FALSE){
-      current.gt = globaltest(indep.chr.matrix, current.feature, 	method=method)}
-    } else{
-      if(method == "permutations")
-      {
-      	 msg = paste("you cannot use permutations when running the analysis as a confounder, please change your method")
-   	 stop(msg)
-      }
-	else if(length(subtype) == ncol(indep.chr.matrix)){
-	subtype <- factor(subtype)
-      current.gt = globaltest(indep.chr.matrix, current.feature, 	method=method, adjust=Y~subtype)}
-else{
-current.gt = globaltest(indep.chr.matrix, current.feature, 	method=method, adjust=subtype)}
-    }
-
-    
-    
-    # Get the p-value that indicates whether all of the genes together are
-    # significantly associated with the current feature.
-    p.values[idx] = p.value(current.gt)
-    
-    # Determine the z-scores for all genes.
-    if (zscores) {
-
-      # Use the method "geneplot" to extract the z-scores.
-      current.gp = geneplot(current.gt, drawlabels=FALSE, plot=FALSE)
-          
-      # Get the z-score for each gene.
-      gene.z.scores = z.score(current.gp)
-      
-      # Set z-scores with an "NA" value and all z-scores < 0 to zero.
-      gene.z.scores[is.na(gene.z.scores)] = 0
-      gene.z.scores[gene.z.scores < 0] = rep(0, length(gene.z.scores[gene.z.scores < 0]))
-    
-      # Get the color of the plotted bar. "1" indicates a positive correlation
-      # with the current feature and "2' indicates a negative correlation.
-      my.up = current.gp@res[, 4]
-      
-      # Create a copy of the z-scores as computed above, and modify it so that
-      # entries that have a negative correlation with current feature, will also
-      # have a negative z-score.
-      processed.z.scores = gene.z.scores
-      processed.z.scores[my.up == 2] = -gene.z.scores[my.up == 2]
-      
-      # Store the processed gene.z.scores.
-      gene.proc.zscores[idx, ] = processed.z.scores
-      
-      # Store the sign of the correlation with the current feature.
-      gene.proc.zscores.col[idx, ] = my.up
-    }
-
-        
-    # Determine the time spent on the current iteration.
-    time.single.iteration = proc.time()[3] - time.start.iteration
-  }
-   
-  if (zscores) {
-    retval = list(p.values, gene.z.scores,  gene.proc.zscores,  gene.proc.zscores.col)
-  }
-    
-  if (!zscores) {
-    retval = list(p.values)
-  }
-method2 <- function(gt) {
-switch (gt@method, 
-"No method",
-"Gamma approximation",
-"Asymptotic distribution",
-paste("All", ncol(gt@PermQs), "permutations"),
-paste(ncol(gt@PermQs), "random permutations")
-)
+###############################################################################
+# function: showProgress()
+# description: nicely prints seconds into hours, minutes and seconds.
+###############################################################################
+showProgress <- function(i, n, s, nskip){	
+    cat("    ... features", i, "of", n)
+    s <- as.numeric(s)*(n-i)/nskip
+    h <- s%/%3600
+    m <- (s - h*3600)%/%60
+    s <- (s - h*3600 - m*60)
+    if(h > 0)
+        cat(" (", h, "h ", m, "min ", round(s, 0), "s)\n", sep="")
+    else if(h == 0 & m > 0)
+        cat(" (", m, "min ", round(s, 0), "s)\n", sep="")
+    else
+        cat(" (", round(s, 0), "s)\n", sep="")
+    flush.console() #for windows
 }
-print(paste("method =", method2(current.gt)))
-  # Return "retval".
-  return(retval)
-  }
+
+###############################################################################
+# function: runIA()
+# description: the interface to globaltest, performs on each dependent and independent
+#              feature a globaltest and extract the necessary information from a globaltest-object
+#              for further analysis. 
+###############################################################################
+runIA <- function(Y, X, zscores, subset, adjust, ...) #parameters passed to globaltest e.g. adjust, permutation
+{
+    associatedZscores <- NULL
+    if(zscores)
+        associatedZscores <- matrix(NA, nrow=nrow(Y), ncol=nrow(X)) #by default all unknown
+    
+    pValues <- rep(1, nrow(Y)) #by default all unsignificant
+    
+    #define number of skips
+    nskip <- ifelse(as.logical(floor(nrow(Y)/20)), floor(nrow(Y)/20), 1)
+    
+    start <- Sys.time()
+    for(idx in 1:nrow(Y))
+    {
+        
+        y <- Y[idx, ]		
+        
+        if(subset[idx, 1] == 0 & subset[idx, 2] == 0) #skip empty subset			
+            next
+        
+        sbst <- do.call(":", as.list(subset[idx,]))
+        
+        object <- gt(response=y, alternative=X, null=adjust, subsets=sbst, ...)		
+        
+        #extract information from globaltest object
+        
+        pValues[idx] <- p.value(object)		
+        
+        # Determine the z-scores for all genes.
+        if (zscores) {			
+            
+            # get the test function
+            test <- function(set) object@functions$test(set, calculateP=FALSE)
+            
+            # Test covariates  
+            leaves <- t(sapply(1:size(object), function(i) test(i)))
+            
+            # calculate zscores  
+            zsc <- (leaves[,"S"]  - leaves[,"ES"]) / leaves[,"sdS"]
+            
+            # Set z-scores with an "NA" value and all z-scores < 0 to zero.
+            zsc[is.na(zsc) | zsc < 0] <- 0
+            
+            #association
+            positive <- object@functions$positive()[sbst]
+            
+            associatedZscores[idx, sbst] <- zsc * (2*positive - 1) # f(0)=-1; f(1)=1 => f(x)=2*x - 1
+        }		
+        
+        if(idx %% nskip == 0){
+            showProgress(idx, nrow(Y), difftime(Sys.time(), start, units="secs"), nskip)
+            start <- Sys.time()
+        }
+        
+    }#end for-loop	
+    
+    if(exists("object"))
+    {	
+        #get globaltest object information taken from globaltest summary
+        df <- object@functions$df()
+        nperms <- object@functions$nperms()
+        
+        cat("    ... summary results of 'integrated.analysis()' on last feature:\n")	
+        cat("    ... \"gt.object\" object from package globaltest\n")
+        cat("    ... Call:\n")
+        cat("    ... ", deparse(object@call), "\n")	
+        cat("    ... Model:", object@model, "regression.\n")
+        cat("    ... Degrees of freedom:", df[1], "total;", df[2], "null;", df[2], "+", df[3], "alternative.\n")
+        cat("    ... Null distibution: ")	
+        if (nperms[1]) {
+            cat(if(!nperms[2]) "all", nperms[1], if(nperms[2]) "random", "permutations.\n")
+        } else {
+            cat("asymptotic.\n")
+        }
+        cat("\n")
+    }
+    else
+        cat("    ... there where no independent features for running the 'globaltest()'!\n")
+    list(zscores=associatedZscores, pvalues=pValues)
+}
 
