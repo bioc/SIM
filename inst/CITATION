@@ -1,0 +1,51 @@
+citHeader("To cite SIM in publications use:")
+
+citEntry(entry="Manual",
+         title = "Statistical Integration of Microarrays",
+         author = personList(as.person("Renee X. de Menezes"),
+                             as.person("Marten Boetzer"), 
+                             as.person("Melle Sieswerda"), 
+                             as.person("Judith M. Boer")),
+         organization = "Center for Human and Clinical Genetics, Leiden University Medical Center",
+         address      = "The Netherlands",
+         year         = version$year,
+         note         = "",
+         url          = "",
+         
+         textVersion = 
+        paste("Renee X. de Menezes, Marten Boetzer, Melle Sieswerda and Judith M. Boer, SIM ", 
+              "R package, version ", packageDescription("SIM")$Version, ".", sep = "")
+         )
+
+
+citEntry(entry="Manual",
+    title = "Globaltest: testing association of a group of genes
+        with a clinical variable",
+    author = personList(as.person("J. J. Goeman"),
+        as.person("J. Oosting")),
+    year = substring(packageDescription("globaltest")$Date,1,4),
+    note = paste("R package version", packageDescription("globaltest")$version),
+    textVersion =
+      paste("Jelle J. Goeman and Jan Oosting (",
+        substring(packageDescription("globaltest")$Date,1,4),
+        ") Globaltest ",
+        "R package, version ", packageDescription("globaltest")$Version,
+        ".", sep = "")
+)
+
+citEntry(entry="Article",
+    title = "Integrated analysis of DNA copy number and gene expression microarray data using gene sets.",
+    author = personList(as.person("Renee X. de Menezes"),
+                             as.person("Marten Boetzer"), 
+                             as.person("Melle Sieswerda"), 
+                             as.person("Judith M. Boer")),
+    journal = "BMC Bioinformatics",
+    number = 10,
+    pages = "203",
+    year = 2009,
+    textVersion =
+      paste("Renee X. de Menezes, Marten Boetzer, Melle Sieswerda, Judith M. Boer (2009)",
+		"Integrated analysis of DNA copy number and gene expression microarray data using gene sets.",
+        	"BMC Bioinformatics, 10, 203-.")
+)
+
