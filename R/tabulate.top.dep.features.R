@@ -15,7 +15,8 @@ tabulate.top.dep.features <- function(input.regions="all chrs",
     
     ifPvalues <- file.path(run.name, method, "gpvals.pat.c.%s")
     ifZscores <- file.path(run.name, method, "zmat.%s") 
-    ifDepAnnInputRegion <- file.path(run.name, method, "dep.ann.data.%s")	
+    ifDepAnnInputRegion <- file.path(run.name, method, "dep.ann.data.%s")
+    ifIndepAnnInputRegion <- file.path(run.name, method, "indep.ann.data.%s")   
     ifDepAbsPos <- file.path(run.name, "data", "abs.start.dep")
     
     ofTable1 <- file.path(run.name, "top.dep.features", 
@@ -47,15 +48,19 @@ tabulate.top.dep.features <- function(input.regions="all chrs",
         raw.pvals <- dget(sprintf(ifPvalues, input.region))				
         p.values <- p.adjust(raw.pvals, method=adjust.method)
         
-        annotation <- dget(sprintf(ifDepAnnInputRegion, input.region))			
+        annotationDep <- dget(sprintf(ifDepAnnInputRegion, input.region))
+        
+        annotationIndep <- dget(sprintf(ifIndepAnnInputRegion, input.region))   
         
         load(sprintf(ifZscores, input.region))
         
         #if complete row contains NA remove from data
-        na.indices <- apply(z.scores, 1, function(x) sum(is.na(x)) == length(x))        
+        na.indices <- apply(z.scores, 1, function(x) sum(is.na(x)) == length(x))
+        
         z.scores <- z.scores[!na.indices, , drop=FALSE]
         p.values <- p.values[!na.indices]
-        annotation <- annotation[!na.indices,, drop=FALSE]
+        annotationDep <- annotationDep[!na.indices,, drop=FALSE]
+        
         abs.start.pos <- abs.start.pos[!na.indices] 
         
         #subset significant P-values
@@ -66,15 +71,19 @@ tabulate.top.dep.features <- function(input.regions="all chrs",
         if(nrow(z.scores) == 0)
             next
         
-        annotation <- annotation[id.p.values, , drop=FALSE]
+        annotationDep <- annotationDep[id.p.values, , drop=FALSE]
         abs.start.pos <- abs.start.pos[id.p.values]		
         p.values <- p.values[id.p.values]		
         
         extreme.influences <- apply(z.scores, 1, function(x) x[which.max(abs(x))]) #get all the extreme contributions
         
+        extreme.influences.ids <- apply(z.scores, 1, function(x) which.max(abs(x))) #get all the extreme contributions
+        
+        annotationIndep <- annotationIndep[extreme.influences.ids, ]
+        
         # Sort table by the p-values.
         table <- data.frame(`P-values`=p.values, `extreme influences`=extreme.influences,							
-                `absolute start position`=abs.start.pos, annotation, row.names=NULL)
+                `absolute start position`=abs.start.pos, annotationDep, annotationIndep, row.names=NULL)
         
         table <- table[order(table[,1]), ]
         table[,1] <- signif(table[,1], digits=2)	

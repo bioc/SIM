@@ -64,25 +64,20 @@ tabulate.top.indep.features <- function(input.regions="all chrs",
         
         # Retrieve the z-scores.
         load(sprintf(ifZscores, input.region))
-        
-        #if complete column contains NA remove from data
-        na.indices <- apply(z.scores, 2, function(x) sum(is.na(x)) == length(x))        
-        z.scores <- z.scores[, !na.indices, drop=FALSE]
-        
-        annotation <- annotation[!na.indices,, drop=FALSE]
-        
-        abs.start.pos <- abs.start.pos[!na.indices] 
-        
-        # Compute the mean influence of each column (i.e. gene or sample) on
-        # the p-values of the significant features.
-        
-        #select only the significant ones
-        
+       
         z.scores <- z.scores[p.values <= significance , , drop=FALSE]
+        
         if(nrow(z.scores) == 0)
             next
         
         mean.influences <- apply(z.scores, 2, mean, na.rm=TRUE)
+        
+        nan.indices <- is.nan(mean.influences)
+        
+        mean.influences <- mean.influences[!nan.indices]
+        annotation <- annotation[!nan.indices, , drop=FALSE]        
+        abs.start.pos <- abs.start.pos[!nan.indices]
+        
         
         if(is.null(z.threshold))
             z.threshold <- range(mean.influences)
@@ -90,7 +85,9 @@ tabulate.top.indep.features <- function(input.regions="all chrs",
         id.extreme.influences <- mean.influences <=  z.threshold[1] | mean.influences >=  z.threshold[2]
         
         mean.influences <- mean.influences[id.extreme.influences]
+        
         abs.start.pos <- abs.start.pos[id.extreme.influences]
+        
         annotation <- annotation[id.extreme.influences, , drop=FALSE]
         
         # Sort table by mean influences.

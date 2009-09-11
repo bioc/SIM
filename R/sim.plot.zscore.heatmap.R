@@ -87,10 +87,7 @@ independent.heatmap <- function(z, zlim, sign.p.values, sign.z.scores.neg, sign.
     ylim <- c(ylim[1] - 0.5, ylim[2] + 0.5)
     
     image(x, y, z, axes=FALSE, zlim=zlim, col=colRamp, ann=FALSE, xlim=xlim, ylim=ylim, yaxs="i")
-    
-    #remove NA's in case of window or overlap 
-    z <- na.omit(z)
-    
+   
     sign.p.values <- sign.p.values[y] 
     sign.z.scores.neg <- sign.z.scores.neg[x] 
     sign.z.scores.pos <- sign.z.scores.pos[x]
@@ -123,17 +120,18 @@ independent.heatmap <- function(z, zlim, sign.p.values, sign.z.scores.neg, sign.
 heatmap <- function(dep.data, z.scores, adjusted.p.values, significance, z.threshold, colRamp, add.colRamp, add.plot, 
         adjust, add.scale, scale, smooth.lambda, input.region, ...)
 {
-   
-    mean.z.scores <- apply(z.scores[significance, , drop = FALSE], 2, mean, na.rm=TRUE)
-       
+          
     sign.p.values <- adjusted.p.values <= significance    
-    sign.z.scores.neg <- mean.z.scores < -z.threshold
-    sign.z.scores.pos <- mean.z.scores > z.threshold
     
-    #replace NA by FALSE, ignore them
-    sign.z.scores.neg[is.na(sign.z.scores.neg)] <- FALSE
-    sign.z.scores.pos[is.na(sign.z.scores.pos)] <- FALSE
+    sign.z.scores <- z.scores[sign.p.values, , drop=FALSE] 
     
+    mean.z.scores <- apply(sign.z.scores, 2, mean, na.rm=TRUE)
+    
+    mean.z.scores[is.nan(mean.z.scores)] <- 0 #make them unsignificant
+    
+    sign.z.scores.neg <- mean.z.scores <= -z.threshold    
+    sign.z.scores.pos <- mean.z.scores >= z.threshold
+      
     #scale the zscores 
     if(missing(scale)){
         zmax <- max(0, abs(z.scores), na.rm=TRUE)
