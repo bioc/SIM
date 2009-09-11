@@ -19,7 +19,7 @@
 }
 
 \details{
-   This functions requires \link[RMySQL]{RMySQL}. Currently \link{SIM} only supports integrated analysis on the 
+   This functions requires library RMySQL. Currently \link{SIM} only supports integrated analysis on the 
    human genome without mitochondrial DNA.  
 }
 

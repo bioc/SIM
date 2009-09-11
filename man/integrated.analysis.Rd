@@ -70,7 +70,7 @@
 	\item{run.name}{\code{character} name of the analysis. The results will be stored in a folder with this name in the current working directory 
 	                (use \code{getwd()} to print the current working directory). If missing the default folder \code{"analysis\_results"} will be generated.}
 	                
-	\item{...}{additional arguments for \link[globaltest]{globaltest} e.g. \code{model="logistic"} or when 
+	\item{...}{additional arguments for \link[globaltest]{gt} e.g. \code{model="logistic"} or when 
 	           \code{permutations > 0} the null distribution is estimated using permutations, see \link[globaltest:gt]{gt}. See Details.} 
 }
 
