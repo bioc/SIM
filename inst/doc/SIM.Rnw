@@ -587,7 +587,7 @@ sim.plot.overlapping.indep.dep.features(input.regions="8q",
 %
 \begin{figure}
 \centering 
-\includegraphics{chr8q/OverlappingPlotfullBY1e-01.pdf}
+\includegraphics{chr8q/OverlappingPlotfullBY1e-018q.pdf}
 \caption{Showing consecutive regions in the dependent and independent data.}
 \end{figure}
 

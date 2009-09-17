@@ -312,7 +312,7 @@ integrated.analysis <- function (samples,
         subset <- withinWindow(x, y, w=window, sort=FALSE)
         
         #remove empty subsets?
-        #save(subset, file=file.path(run.name, method, "subset.RData"))
+        save(subset, file=file.path(run.name, method, "subset.RData"))
         
         result <- runIA(dep.data.region, indep.data.region, zscores, subset, adjust, ...)	
         

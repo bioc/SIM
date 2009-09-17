@@ -233,7 +233,7 @@ sim.plot.overlapping.indep.dep.features <- function(input.regions,
     input.regions <- unlist(sapply(input.regions, predefinedRegions, USE.NAMES=FALSE))
     
     ofPDF <- file.path(run.name, 
-            paste("OverlappingPlot", method, adjust.method, format(significance, scientific = TRUE, digits=1), ".pdf", sep=""))
+            paste("OverlappingPlot", method, adjust.method, format(significance, scientific = TRUE, digits=1), "%s.pdf", sep=""))
     
     cat("Producing overlapping plot ...\n")
     
@@ -246,19 +246,17 @@ sim.plot.overlapping.indep.dep.features <- function(input.regions,
     
     if(pdf){
         options(error=dev.off)
-        pdf(ofPDF, ...)
-        
-        on.exit({ dev.off()
-                    cat("... overlapping plot stored with file name: ", ofPDF, "\n", sep="")
-                    options(error=NULL)})
-        
+        on.exit(options(error=NULL))        
     } else {
         opar <- par(no.readonly=TRUE)
         on.exit(par(opar))
     }
     
     for(input.region in input.regions)
-    {	
+    {
+        if(pdf)            
+            pdf(sprintf(ofPDF, input.region), ...)
+        
         region.dep <- getGenomicRegion(input.region)
         
         cat("... input region:", input.region, "\n")
@@ -393,5 +391,10 @@ sim.plot.overlapping.indep.dep.features <- function(input.regions,
         plotCytobands(chr, xlim=xlim, ylim=c(-0.5, 0.5), new=FALSE)
         
         xlim <- NULL
+        
+        if(pdf) {
+            dev.off()
+            cat("... overlapping plot stored with file name: ", ofPDF, "\n", sep="")
+        } 
     }	
 }

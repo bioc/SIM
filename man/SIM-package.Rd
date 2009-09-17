@@ -15,7 +15,7 @@ expression measurements on the same samples.
 A region of interest can be chosen to run the integrated analysis on either the same region for both dependent and 
 independent datasets or different regions. For each dependent feature a P-value measures the association with the
 independent data, the contribution of each independent feature is given as Z-scores. The integrated analysis 
-is based on the random-effect model for gene-sets as implemented in \link{globaltest}.
+is based on the random-effect model for gene-sets as implemented in \link[globaltest:v4_globaltest]{globaltest}.
 
 maybe something about annotation?
 

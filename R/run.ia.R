@@ -38,15 +38,20 @@ runIA <- function(Y, X, zscores, subset, adjust, ...) #parameters passed to glob
     for(idx in 1:nrow(Y))
     {
         
-        y <- Y[idx, ]		
+        y <- Y[idx,]		
         
         if(subset[idx, 1] == 0 & subset[idx, 2] == 0) #skip empty subset			
             next
         
         sbst <- do.call(":", as.list(subset[idx,]))
         
-        object <- gt(response=y, alternative=X, null=adjust, subsets=sbst, ...)		
+        #testing        
+        x <- X[sbst,,drop=FALSE]
+                
+        object <- gt(response=y, alternative=x, null=adjust, ...)
         
+        #object <- gt(response=y, alternative=X, null=adjust, subsets=sbst, ...)		
+                
         #extract information from globaltest object
         
         pValues[idx] <- p.value(object)		
@@ -67,8 +72,8 @@ runIA <- function(Y, X, zscores, subset, adjust, ...) #parameters passed to glob
             zsc[is.na(zsc) | zsc < 0] <- 0
             
             #association
-            positive <- object@functions$positive()[sbst]
-            
+            positive <- object@functions$positive()
+                       
             associatedZscores[idx, sbst] <- zsc * (2*positive - 1) # f(0)=-1; f(1)=1 => f(x)=2*x - 1
         }		
         
@@ -77,7 +82,7 @@ runIA <- function(Y, X, zscores, subset, adjust, ...) #parameters passed to glob
             start <- Sys.time()
         }
         
-    }#end for-loop	
+    }#end for-loop
     
     if(exists("object"))
     {	
