@@ -77,7 +77,7 @@ predefinedRegions <- function(x, excluded.arms=c("13p", "14p", "15p", "21p", "22
 convertGenomicRegion <- function(...) 
 {
     data("chrom.table", package="SIM")
-    n <- nargs(...)
+    n <- nargs()
     args <- list(...)
     arguments <- list(chr=unique(chrom.table$chr), arm=unique(chrom.table$arm), band=unique(chrom.table$band))
     Columns <- c("start", "end")
