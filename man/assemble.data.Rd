@@ -97,7 +97,7 @@ assemble.data(dep.data,
 \value{
 	No values are returned. Instead, the datasets and annotation columns are stored in 
 separate files in the \code{data} folder in the directory specified in \code{run.name}. 
-If \code{assemble.data} has run succesfully, the \link{integrated.analysis} function can be performed.
+If \code{assemble.data} has run successfully, the \link{integrated.analysis} function can be performed.
 }
 \author{Marten Boetzer, Melle Sieswerda, Renee X. de Menezes  \email{R.X.Menezes@lumc.nl}}
 

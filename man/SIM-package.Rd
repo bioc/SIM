@@ -24,7 +24,7 @@ This method accounts for dependence between measurements and is more conservativ
 For details on the multiple testing correction methods see \link[stats:p.adjust]{p.adjust}. 
 We have experienced that a rather low stringency cut-off on the BY-values of 
 20\% allows the detection of associations for data with a low number of samples or a low 
-frequency of abberations. False positives are rarely observed.
+frequency of aberrations. False positives are rarely observed.
 
 Make sure that the array probes are mapped to the same builds of the genome, and that the 
 \link{chrom.table} used by the \link{integrated.analysis} is from the same build as well.
