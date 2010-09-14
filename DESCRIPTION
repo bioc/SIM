@@ -1,12 +1,12 @@
 Package: SIM
 Type: Package
 Title:  Integrated Analysis on two human genomic datasets
-Version: 1.17.0
+Version: 1.17.1
 Author: Renee X. de Menezes and Judith M. Boer
 Maintainer: Maarten van Iterson <M.van_iterson.HG@lumc.nl>
 Imports: graphics, stats, globaltest, quantsmooth
 Depends: R (>= 2.4), quantreg
-Suggests: biomaRt, RMySQL
+Suggests: biomaRt
 Description: Finds associations between two human genomic datasets.
 License: GPL (>= 2)
 biocViews: Microarray, DNACopyNumber, Bioinformatics, Visualization

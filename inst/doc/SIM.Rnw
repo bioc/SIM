@@ -20,7 +20,7 @@
 \author{Ren\'ee X. de Menezes, Marten Boetzer, Melle Sieswerda, Judith M. Boer\\
 Center for Human and Clinical Genetics,\\
 Leiden University Medical Center, The Netherlands\\
-Package SIM, version 1.13.0\\
+Package SIM, version \Sexpr{packageVersion("SIM")}\\
 \texttt{R.X.Menezes@LUMC.NL}}
 
 \usepackage{babel}
@@ -57,112 +57,44 @@ options(width=40)
 
 \section{Introduction}
 
-This package implements the methods described in \cite{menezes}. 
-Briefly, we propose the use of a random-effects model to fit the association
-between copy number and gene expression microarray data, measured
-on the same samples but not necessarily using the same array platform.
-The model (and this package) can be applied to either intensity or
-ratio data. Moreover, it can be used to describe the association between
-any other two microarray data sources, such as methylation and expression,
-or SNP call and expression, for example. For simplicity, we will focus
-on the association between copy number and gene expression.
+This package implements the methods described in \cite{menezes}. Briefly, we propose the use of a random-effects model to fit the association between copy number and gene expression microarray data, measured on the same samples but not necessarily using the same array platform. The model (and this package) can be applied to either intensity or ratio data. Moreover, it can be used to describe the association between any other two microarray data sources, such as methylation and expression, or SNP call and expression, for example. For simplicity, we will focus on the association between copy number and gene expression.
 
 The \Rpackage{SIM} package depends on the \Rpackage{globaltest} and \Rpackage{quantsmooth} Bioconductor packages.
 
 
 \section{Overview}
 
-The package consists of functions to run and visualize results of
-an integrated analysis model being applied to two microarray datasets.
-Two main functions read in the data and fit the model. Then results
-can be visualized and tabulated with the help of other functions.
-We will describe the functions in more detail in the example in section
-\ref{integrated.example}. Here we give a brief overview of the functions
-implemented.
+The package consists of functions to run and visualize results of an integrated analysis model being applied to two microarray datasets. Two main functions read in the data and fit the model. Then results can be visualized and tabulated with the help of other functions. We will describe the functions in more detail in the example in section \ref{integrated.example}. Here we give a brief overview of the functions implemented.
 
-The \Rfunction{assemble.data} function reads in the microarray data
-and annotation. The main function \Rfunction{integrated.analysis}
-fits the model to the data. Both functions generate results that are
-automatically stored on the hard disk for subsequent analysis, in
-especially created folders. All subsequent functions produce output
-directly saved onto these folders. This is more efficient than keeping large objects
-on the workspace, especially if high-density arrays are involved.
+The \Rfunction{assemble.data} function reads in the microarray data and annotation. The main function \Rfunction{integrated.analysis} fits the model to the data. Both functions generate results that are automatically stored on the hard disk for subsequent analysis, in especially created folders. All subsequent functions produce output directly saved onto these folders. This is more efficient than keeping large objects on the workspace, especially if high-density arrays are involved.
 
-The function \Rfunction{sim.plot.pvals.on.genome} gives an overview
-of the multiple-testing corrected p-values, organized along the genome.
-Another summary is produced by \Rfunction{tabulate.pvals}, a tabulation
-of the multiple-testing corrected p-values per studied region. The
-function \Rfunction{sim.plot.pvals.on.region} generates a multipage pdf 
-including all tested regions, for which it displays the empirical 
-distribution of the computed p-values to convey the strength of the 
-associations found and it displays the multiple-testing  
-corrected p-values per region studied, without discretization. This helps 
-identifying regions rich in low p-values. If there is no prior interest in any
-chromosome, researchers may find it useful to use these graphs, together
-with the tabulated p-values, to choose chromosome arms to focus on.
+The function \Rfunction{sim.plot.pvals.on.genome} gives an overview of the multiple-testing corrected p-values, organized along the genome. Another summary is produced by \Rfunction{tabulate.pvals}, a tabulation of the multiple-testing corrected p-values per studied region. The function \Rfunction{sim.plot.pvals.on.region} generates a multipage pdf including all tested regions, for which it displays the empirical distribution of the computed p-values to convey the strength of the associations found and it displays the multiple-testing corrected p-values per region studied, without discretization. This helps identifying regions rich in low p-values. If there is no prior interest in any chromosome, researchers may find it useful to use these graphs, together with the tabulated p-values, to choose chromosome arms to focus on.
 
-The function \Rfunction{sim.plot.zscore.heatmap} plots the pairwise
-associations between features in the analyzed region in a heatmap.
-An additional panel can display the dependent features trend on the
-samples used, in this example the copy number aberrations. Finally,
-to select dependent or independent features for further analysis and
-validation, the functions \Rfunction{tabulate.top.dep.features}
-and \Rfunction{tabulate.top.indep.features} produce tables of dependent
-features with adjusted p-values and independent features with mean
-associations, respectively.
+The function \Rfunction{sim.plot.zscore.heatmap} plots the pairwise associations between features in the analyzed region in a heatmap. An additional panel can display the dependent features trend on the samples used, in this example the copy number aberrations. Finally, to select dependent or independent features for further analysis and validation, the functions \Rfunction{tabulate.top.dep.features} and \Rfunction{tabulate.top.indep.features} produce tables of dependent features with adjusted p-values and independent features with mean associations, respectively.
 
 
 \section{Data preparation}
 
 \label{data.preparation}
 
-The microarray data sets should have been normalized with an appropriate
-method prior to the integrated analysis and contain log-transformed
-intensities or ratios. In addition to the columns containing normalized
-microarray measurements, the minimal probe annotation required is
-a unique identifier, chromosome number (X and Y for the sex-chromosomes),
-and base pair location within the chromosome. Optionally, an additional
-identifier, often gene symbol, can be provided.
+The microarray data sets should have been normalized with an appropriate method prior to the integrated analysis and contain log-transformed
+intensities or ratios. In addition to the columns containing normalized microarray measurements, the minimal probe annotation required is
+a unique identifier, chromosome number (X and Y for the sex-chromosomes), and base pair location within the chromosome. Optionally, an additional
+identifier, often gene symbol, can be provided. 
 
-Make sure that the genomic locations in both datasets refer to the
-same genome assembly and that this is in accordance with the genome
-build used in the chromosome table used by the \Rpackage{SIM} package.
-Currently, the \Rfunction{chrom.table} is available for homo\_sapiens\_core\_40\_36b.
-The function \Rfunction{sim.update.chrom.table} gives instructions on
-how to change the chrom.table used.
+Make sure that the genomic locations in both datasets refer to the same genome assembly and that this is in accordance with the genome build used in the chromosome table used by the \Rpackage{SIM} package. Currently, the \Rfunction{chrom.table} is available for homo\_sapiens\_core\_40\_36b.
+The function \Rfunction{sim.update.chrom.table} gives instructions on how to change the chrom.table used. 
 
-Often, the annotation for expression array probes lack chromosome
-position information. We generated two methods to add this annotation.
-The \Rfunction{link.metadata} function gets annotation out of a
-AnnotationData package and links it to the expression data using the
-expression probe IDs. It adds the two required columns chromosome
-and position to run the \Rfunction{integrated.analysis}. An optional
-column, "Symbol" can be added. Alternatively, we
-can use the \Rpackage{SIM} function \Rfunction{RESOURCERER.annotation.to.ID},
-which gets annotation out of a RESOURCERER annotation file and links
-them to expression data with help of expression IDs.
+Often, the annotation for expression array probes lack chromosome position information. We generated two methods to add this annotation. The \Rfunction{link.metadata} function gets annotation out of a AnnotationData package and links it to the expression data using the expression probe IDs. It adds the two required columns chromosome and position to run the \Rfunction{integrated.analysis}. An optional column, "Symbol" can be added. Alternatively, we can use the \Rpackage{SIM} function \Rfunction{RESOURCERER.annotation.to.ID}, which gets annotation out of a RESOURCERER annotation file and links them to expression data with help of expression IDs. 
 
-We recommend applying the model on the normalized (typically logarithmic)
-data directly, since the use of discretization may dampen small associations.
-However, if for some reason the dependent data has to be categorized,
-it is advisable to transform it into a factor so that the model will
-use the appropriate settings (see subsection \ref{categ.data}).
+We recommend applying the model on the normalized (typically logarithmic) data directly, since the use of discretization may dampen small associations. However, if for some reason the dependent data has to be categorized, it is advisable to transform it into a factor so that the  model will use the appropriate settings (see subsection \ref{categ.data}).
 
-The function \Rfunction{assemble.data} currently expects data frames
-as inputs representing the array datasets. If your array data is stored
-as an \Robject{exprSet} object, you may use \Robject{exprs} to
-extract the array intensities/log-ratios only. If your array data
-is just a tab-delimited text file, reading it using \Rfunction{read.table}
-will produce a data frame.
+The function \Rfunction{assemble.data} currently expects data frames as inputs representing the array datasets. If your array data is stored as an \Robject{exprSet} object, you may use \Robject{exprs} to extract the array intensities/log-ratios only. If your array data is just a tab-delimited text file, reading it using \Rfunction{read.table} will produce a data frame.
 
-The order of the samples within each dataset is assumed to be the
-same and the column names should be identical. For an example how
-to re-order the samples see \ref{ordering}.
+The order of the samples within each dataset is assumed to be the same and the column names should be identical. For an example how to re-order the samples see \ref{ordering}.
 
-The dependent data should not contain any \Robject{NA}'s. We have constructed
-the function \Rfunction{impute.nas.by.surrounding} to impute missing
-copy number data by taking the median of the surrounding probes within
-the same sample. This function may take a while!
+The dependent data should not contain any \Robject{NA}'s. We have constructed the function \Rfunction{impute.nas.by.surrounding} to impute missing
+copy number data by taking the median of the surrounding probes within the same sample. This function may take a while! 
 
 
 \section{Example: Breast cancer}
@@ -172,32 +104,11 @@ the same sample. This function may take a while!
 
 \subsection{Data sets}
 
-As an example we use the data generated and first analysed by Pollack
-and colleagues \cite{pollack2002}. This example involves array CGH
-and expression arrays from 37 breast tumor samples and 4 breast cancer
-cell lines. Just for illustrative purposes we use only chromosome arm 8q.
-This study used the same cDNA arrays for both expression and CGH measurements, 
-resulting in a one-to-one correspondence between the datasets. This is not a 
-requirement to run the integrated analysis, but it makes biological 
-interpretation somewhat easier.
+As an example we use the data generated and first analysed by Pollack and colleagues \cite{pollack2002}. This example involves array CGH and expression arrays from 37 breast tumor samples and 4 breast cancer cell lines. Just for illustrative purposes we use only chromosome arm 8q. This study used the same cDNA arrays for both expression and CGH measurements, resulting in a one-to-one correspondence between the datasets. This is not a requirement to run the integrated analysis, but it makes biological interpretation somewhat easier.
 
-Arrays from each of the two data types have been pre-processed as
-follows. A sliding window (size = 5) was applied to the array CGH
-data. If an \Robject{NA} was found at the center of the window and
-if it was the only \Robject{NA} in the window, it was imputed by
-taking the median of the remaining 4 features. If the window contained
-more than 1 \Robject{NA}, the feature was skipped. After \Robject{NA}
-imputation, all rows (aCGH features) containing \Robject{NA}s were
-discarded. The expression data was filtered to make the expression
-features correspond to the aCGH features (i.e. expression features
-that were no longer in the aCGH dataset after \Robject{NA} filtering,
-were discarded). The end result is two datasets with an equal number
-of rows. The data had been previously normalized by the authors of
-the study.
+Arrays from each of the two data types have been pre-processed as follows. A sliding window (size = 5) was applied to the array CGH data. If an \Robject{NA} was found at the center of the window and if it was the only \Robject{NA} in the window, it was imputed by taking the median of the remaining 4 features. If the window contained more than 1 \Robject{NA}, the feature was skipped. After \Robject{NA} imputation, all rows (aCGH  features) containing \Robject{NA}s were discarded. The expression data was filtered to make the expression features correspond to the aCGH features (i.e. expression features that were no longer in the aCGH dataset after \Robject{NA} filtering, were discarded). The end result is two datasets with an equal number of rows. The data had been previously normalized by the authors of the study.
 
-The Pollack data is available from the \Rpackage{SIM} package. An
-overview of the variables and data contained in the package can be
-obtained via the command
+The Pollack data is available from the \Rpackage{SIM} package. An overview of the variables and data contained in the package can be obtained via the command 
 
 <<eval=FALSE>>=
 help(package="SIM")
@@ -217,19 +128,14 @@ data(acgh.data)
 data(samples)  
 @
 
-The objects \Robject{expr.data} and \Robject{acgh.data} are of type \Robject{data.frame}, 
-and they include the probe annotations. To find out which columns they contain, use
+The objects \Robject{expr.data} and \Robject{acgh.data} are of type \Robject{data.frame}, and they include the probe annotations. To find out which columns they contain, use
 
 <<>>=
 names(expr.data)
 names(acgh.data)    
 @
 
-\label{ordering} The sample columns should have identical names in
-both data sets, also they should be ordered the same way. To order
-them, use the \Rfunction{order} function on a data frame containing
-the sample data only. After sorting, the annotation columns are added
-again.
+\label{ordering} The sample columns should have identical names in both data sets, also they should be ordered the same way. To order them, use the \Rfunction{order} function on a data frame containing the sample data only. After sorting, the annotation columns are added again.
 
 <<>>=
 acgh.data.only <- acgh.data[, 5:ncol(acgh.data)] 
@@ -244,18 +150,10 @@ expr.data <- cbind(expr.data[, 1:4], expr.data.s)
 
 \subsection{Assembling the data}
 
-The \Rfunction{assemble.data} function helps you read in the measurements
-and annotation data and stores them for use in the integrated analysis
-and visualization. Also, the \Rfunction{assemble.data} function takes
-care of ordering the probes according to position along the genome
-by giving each probe a unique location called absolute start, generated
-by chr*10e9 + base pair position.
+The \Rfunction{assemble.data} function helps you read in the measurements and annotation data and stores them for use in the integrated analysis 
+and visualization. Also, the \Rfunction{assemble.data} function takes care of ordering the probes according to position along the genome by giving each probe a unique location called absolute start, generated by chr*10e9 + base pair position.
 
-Finally, in \Rfunction{assemble.data} you define the \Robject{run.name};
-a folder with this name will be generated in which subfolders will
-hold the data and output. In this example, we will do the integrated
-analysis for chromosome 8q, as the \Robject{run.name}
-indicates.
+Finally, in \Rfunction{assemble.data} you define the \Robject{run.name}; a folder with this name will be generated in which subfolders will hold the data and output. In this example, we will do the integrated analysis for chromosome 8q, as the \Robject{run.name} indicates.
 
 <<>>=
 assemble.data(dep.data = acgh.data, 
@@ -279,86 +177,28 @@ assemble.data(dep.data = acgh.data,
 
 \label{example.model}
 
-In this example, the main objective is to identify candidate regions
-whose copy number aberrations affect expression levels of genes in
-the same region. Therefore, it is natural to consider copy number
-as the dependent variable per cDNA clone, with the expression levels
-of genes in the same region, playing the role of independent variables.
+In this example, the main objective is to identify candidate regions whose copy number aberrations affect expression levels of genes in the same region. Therefore, it is natural to consider copy number as the dependent variable per cDNA clone, with the expression levels of genes in the same region, playing the role of independent variables.
 
-The integrated analysis is a regression of the independent data on
-the dependent features. The regression itself is done using the \Rfunction{globaltest}
-\cite{goeman2004}, which means that the genes in a region (e.g. a
-chromosome arm) are tested as a gene set. The individual associations
-between each copy number probe and each expression probe are calculated
-as z-scores (standardized influences, see \Rfunction{?globaltest}).
+The integrated analysis is a regression of the independent data on the dependent features. The regression itself is done using the \Rfunction{globaltest} \cite{goeman2004}, which means that the genes in a region (e.g. a chromosome arm) are tested as a gene set. The individual associations between each copy number probe and each expression probe are calculated as z-scores (standardized influences, see \Rfunction{?globaltest}).
 
-The \Rfunction{globaltest} can calculate the p-values using two different models,
-using a asymptotic distribution or based on permutations. The asymptotic model is 
-recommended for large sample sizes but can be conservative for small sample sizes and 
-permutations are recommended for smaller
-sample sizes or when the asymptotic distribution cannot be assumed.
-When confounders are included in the model, it is
-not possible to use the permutation method, so the asymptotic
-method is suggested. By default the asymptotic is used, if \Robject{permutation = nperm}, where $nperm > 0$ is 
-applied as arguments thena the permutation model is used.
+The \Rfunction{globaltest} can calculate the p-values using two different models, using a asymptotic distribution or based on permutations. The asymptotic model is recommended for large sample sizes but can be conservative for small sample sizes and permutations are recommended for smaller
+sample sizes or when the asymptotic distribution cannot be assumed. When confounders are included in the model, it is not possible to use the permutation method, so the asymptotic method is suggested. By default the asymptotic is used, if \Robject{permutation = nperm}, where $nperm > 0$ is applied as arguments thena the permutation model is used.
 
-The user is free to choose the regions of interest. For an unbiased,
-genome-wide view, we recommend using chromosome arms. Predefined input
-regions are \Robject{"all arms"} and \Robject{"all arms auto"} for autosomal chromosome arms only. The arms
-13p, 14p, 15p, 21p and 22p are left out, because in most studies there
-are no or few probes in these regions. To include them, just make
-your own vector of arms. Similarly, \Robject{"all chrs"}
-and \Robject{"all chrs auto"} may be used. When
-minimal common regions of gains and losses have been defined, the
-integrated analysis can be focussed to identify candidate genes in
-these regions, defined by the chromosome number followed by the start
-and end position like \texttt{"1 1-1000000"} or \texttt{"chr1 1:1000000"}.
-These regions can also be combined, e.g. \texttt{c("chr1 1:1000000","2q", 3)}. 
-The function splits the datasets into separate sets for each
-region (as specified by the \Robject{input.regions}) and runs the
-analysis for each region separately.
+The user is free to choose the regions of interest. For an unbiased, genome-wide view, we recommend using chromosome arms. Predefined input regions are \Robject{"all arms"} and \Robject{"all arms auto"} for autosomal chromosome arms only. The arms 13p, 14p, 15p, 21p and 22p are left out, because in most studies there are no or few probes in these regions. To include them, just make your own vector of arms. Similarly, \Robject{"all chrs"} and \Robject{"all chrs auto"} may be used. When minimal common regions of gains and losses have been defined, the integrated analysis can be focussed to identify candidate genes in these regions, defined by the chromosome number followed by the start and end position like \texttt{"1 1-1000000"} or \texttt{"chr1 1:1000000"}. These regions can also be combined, e.g. \texttt{c("chr1 1:1000000","2q", 3)}. The function splits the datasets into separate sets for each region (as specified by the \Robject{input.regions}) and runs the analysis for each region separately.
 
-When running \Rpackage{SIM} for a predefined input region, like
-\Robject{"all arms"}, output can be obtained for
-all input regions, as well as subsets of them. But note that the genomic
-unit must be the same: if \Rfunction{integrated.analysis} was run
-using chromosome arms as units, any of the functions and plots must
-also use chromosome arms as units, and not e.g. chromosomes. For example
-if the \Robject{input.regions = "all arms"} was
-used, p-value plots can be produced by inserting the \Robject{input.regions = "all arms"}, 
-but also for instance \texttt{"1p"} or \texttt{"20q"}. However, to produce a plot of
-the whole chromosome, e.g. chromosome 1, the integrated analysis should
-be re-run with \Robject{input.region=1}.
+When running \Rpackage{SIM} for a predefined input region, like \Robject{"all arms"}, output can be obtained for all input regions, as well as subsets of them. But note that the genomic unit must be the same: if \Rfunction{integrated.analysis} was run using chromosome arms as units, any of the functions and plots must also use chromosome arms as units, and not e.g. chromosomes. For example if the \Robject{input.regions = "all arms"} was used, p-value plots can be produced by inserting the \Robject{input.regions = "all arms"}, but also for instance \texttt{"1p"} or \texttt{"20q"}. However, to produce a plot of the whole chromosome, e.g. chromosome 1, the integrated analysis should be re-run with \Robject{input.region=1}.
 
-The user may also specify a subset of samples to be considered in
-the model via the argument \Robject{samples} in the function call,
-which must consist of the list of either column numbers (e.g. \texttt{5:ncol(acgh.data)}
-for both copy number and expression data) or corresponding column
+The user may also specify a subset of samples to be considered in the model via the argument \Robject{samples} in the function call, which must consist of the list of either column numbers (e.g. \texttt{5:ncol(acgh.data)} for both copy number and expression data) or corresponding column
 names.
 
-\Rpackage{SIM} allows the incorporation of confounders, such as
-patient gender, tumor location, tumor type, etc. into the model by
-using the option \Robject{adjust} e.g. \Robject{adjust=~gender}. Confounder variables can be either
-continuous or factors, with as many observations as the number of
-samples on the datasets, and with sample observations in the same
-order as the samples in the array datasets. See \Rfunction{?integrated.analysis}
-for details.
+\Rpackage{SIM} allows the incorporation of confounders, such as patient gender, tumor location, tumor type, etc. into the model by using the option \Robject{adjust} e.g. \Robject{adjust=~gender}. Confounder variables can be either continuous or factors, with as many observations as the number of samples on the datasets, and with sample observations in the same order as the samples in the array datasets. See \Rfunction{?integrated.analysis} for details.
 
-Computation of the z-scores can take a long time depending on the
-datasets' dimensions, and may not be of interest for the entire genome.
-The default of the \Rfunction{integrated.analysis} function is not
-to compute it, unless the argument \Robject{zscores=TRUE}.
+Computation of the z-scores can take a long time depending on the datasets' dimensions, and may not be of interest for the entire genome. The default of the \Rfunction{integrated.analysis} function is not to compute it, unless the argument \Robject{zscores=TRUE}.
 
-The integrated analysis can be run using of of the following methods: a) "full"; 
-the full indepedent data will be used as a gene set for the \Rfunction{globaltest}, 
-b) "overlap"; only the gene/probes of the independent datat that overlap with the dependent 
-data will be used, c) "smooth"; the dependent data will be smoothed using \Rfunction{quantsmooth}, 
-d) "window"; only the independent genes/probes that fall in a window around the dependent genes/probes
-are used as a gene set for the \Rfunction{globaltest}. Additional the window-size and end-position of the
+The integrated analysis can be run using of of the following methods: a) "full"; the full indepedent data will be used as a gene set for the \Rfunction{globaltest}, b) "overlap"; only the gene/probes of the independent datat that overlap with the dependent data will be used, c) "smooth"; the dependent data will be smoothed using \Rfunction{quantsmooth}, d) "window"; only the independent genes/probes that fall in a window around the dependent genes/probes are used as a gene set for the \Rfunction{globaltest}. Additional the window-size and end-position of the
 dependent genes/probes can be given.
     
-Let us apply the \Rfunction{integrated.analysis} function to the
-Pollack copy number and gene expression datasets for chromosome 8q:
+Let us apply the \Rfunction{integrated.analysis} function to the Pollack copy number and gene expression datasets for chromosome 8q:
 
 <<>>=
 integrated.analysis(samples = samples, 
@@ -373,19 +213,10 @@ integrated.analysis(samples = samples,
 
 \label{genome.overview}
 
-Once the model has been run several functions can be used to obtain
-overviews of the p-values across the input regions. These functions
-can also be run when \Robject{zcores=FALSE} was used in the \Rfunction{integrated.analysis}
-function to speed up the analysis.
+Once the model has been run several functions can be used to obtain overviews of the p-values across the input regions. These functions can also be run when \Robject{zcores=FALSE} was used in the \Rfunction{integrated.analysis} function to speed up the analysis.
 
-The first one is \Rfunction{sim.plot.pvals.on.genome}. It will display
-all multiple-testing corrected p-values according to chromosome location,
-colored depending on the model outcome (significant or not). Regions
-rich in statistically significant associations will be mostly blue,
-while regions with few or no significant associations will be mostly
-grey. Regions for which the model was not run will be empty. The organe line indicates 
-the analyzed regions. The purple dots indicates the centromere. The plot will be automatically saved 
-to the "run.name" directory, unless \Robject{pdf=FALSE}.
+The first one is \Rfunction{sim.plot.pvals.on.genome}. It will display all multiple-testing corrected p-values according to chromosome location, 
+colored depending on the model outcome (significant or not). Regions rich in statistically significant associations will be mostly blue, while regions with few or no significant associations will be mostly grey. Regions for which the model was not run will be empty. The organe line indicates the analyzed regions. The purple dots indicates the centromere. The plot will be automatically saved to the "run.name" directory, unless \Robject{pdf=FALSE}.
 
 <<include=FALSE>>=
 sim.plot.pvals.on.genome(input.regions = "8q", 
@@ -405,12 +236,7 @@ sim.plot.pvals.on.genome(input.regions = "8q",
 \caption{Empirical distribution of the computed p-values.}
 \end{figure}
 
-Another summary is produced by the function \Rfunction{tabulate.pvals},
-which produces tabulations of multiple-testing corrected p-values
-using cut-offs typically of interest in hypothesis testing. The output
-is printed on screen. Each row represents an input region with tabulated
-p-values. The percentage column indicates how many probes in the input
-region have a p-value below, in this case, the 8th bin ($0.2$).
+Another summary is produced by the function \Rfunction{tabulate.pvals}, which produces tabulations of multiple-testing corrected p-values using cut-offs typically of interest in hypothesis testing. The output is printed on screen. Each row represents an input region with tabulated p-values. The percentage column indicates how many probes in the input region have a p-value below, in this case, the 8th bin ($0.2$).
 
 <<>>=
 tabulate.pvals(input.regions = "8q", 
@@ -420,90 +246,37 @@ tabulate.pvals(input.regions = "8q",
                run.name = "chr8q")
 @
 
-\label{plots.pvalues} The function \Rfunction{sim.plot.pvals.on.region}
-generates a multipage pdf one page per analyzed region. the first three panels 
-describe the empirical distribution of the
-computed p-values: a histogram and an empirical cumulative distribution
-function (c.d.f.) of the uncorrected p-values, as well as the empirical
-c.d.f. of the multiple-testing corrected p-values. The histogram expected
-if there is no association between copy number and expression is flat,
-whilst in the presence of association it will display a higher proportion
-of small p-values than larger ones. The empirical c.d.f., produced
-by plotting the sorted p-values, conveys the same information as the
-histogram: if there is no association, it will produce an approximate
-diagonal straight line (also plotted as a reference), whilst association
-will be seen as a convex curve, staying below the expected curve.
-The empirical c.d.f. of the multiple-testing adjusted p-values is
-mainly used to visualize how many features would be selected for various
-thresholds.
+\label{plots.pvalues} The function \Rfunction{sim.plot.pvals.on.region} generates a multipage pdf one page per analyzed region. the first three panels describe the empirical distribution of the computed p-values: a histogram and an empirical cumulative distribution function (c.d.f.) of the uncorrected p-values, as well as the empirical c.d.f. of the multiple-testing corrected p-values. The histogram expected if there is no association between copy number and expression is flat, whilst in the presence of association it will display a higher proportion of small p-values than larger ones. The empirical c.d.f., produced by plotting the sorted p-values, conveys the same information as the histogram: if there is no association, it will produce an approximate diagonal straight line (also plotted as a reference), whilst association will be seen as a convex curve, staying below the expected curve. The empirical c.d.f. of the multiple-testing adjusted p-values is mainly used to visualize how many features would be selected for various thresholds.
 
-The lower panel contains a plot of the multiple-testing corrected
-p-values positioned along the genomic region. It is then easy to see
-if there are sub-regions with mostly low p-values.
+The lower panel contains a plot of the multiple-testing corrected p-values positioned along the genomic region. It is then easy to see if there are sub-regions with mostly low p-values.
 
 <<>>=
 sim.plot.pvals.on.region(input.regions = "8q", adjust.method = "BY", run.name = "chr8q") 
 @
 
-By default, the multiple-testing correction used is the false discovery
-rate (FDR)-controlling method suggested by Benjamini \& Yekutiely
-\cite{by2001}. It can be used in case the p-values may have been
-produced by correlated tests, which we believe to be the case while
-testing association between features located in the same genomic regions.
-However, the user may also choose to use the less conservative FDR-controlling
+By default, the multiple-testing correction used is the false discovery rate (FDR)-controlling method suggested by Benjamini \& Yekutiely \cite{by2001}. It can be used in case the p-values may have been produced by correlated tests, which we believe to be the case while testing association between features located in the same genomic regions. However, the user may also choose to use the less conservative FDR-controlling
 method suggested by Benjamini \& Hochberg \cite{bh1995}.
 
-The default Benjamini \& Yekutieli multiple testing correction is
-rather conservative but seems to be the most appropriate when copy
-number is used as dependent variable. If effects are mild, we suggest
-increasing the FDR threshold to $20\%$, and looking for regions rich
-in corrected p-values below this threshold. Effects are expected to
-be mild in data sets with fewer than 50 samples, low amplitude changes,
-and/or copy number changes in a low percentage of samples.
+The default Benjamini \& Yekutieli multiple testing correction is rather conservative but seems to be the most appropriate when copy number is used as dependent variable. If effects are mild, we suggest increasing the FDR threshold to $20\%$, and looking for regions rich in corrected p-values below this threshold. Effects are expected to be mild in data sets with fewer than 50 samples, low amplitude changes, and/or copy number changes in a low percentage of samples.
 
 
 \subsection{Visualizing association patterns}
 
 \label{heatmaps}
 
-The association heatmap can only be drawn when z-scores have been calculated 
-in the \Rfunction{integrated.analysis} (\Robject{zscores=TRUE}). The function 
-\Rfunction{sim.plot.zscore.heatmap} produces an association heatmap 
-that shows the association (standardized influence) of each independent
-feature (expression measurement) with each dependent feature (copy
-number measurement). The copy number measurements are represented
-by the rows, whilst the expression measurements are represented by
-the columns. One heatmap representing each region is produced and
-stored in the folder \texttt{heatmap.zscores}. The copy number probes
-are on the rows, from start of region (bottom) to end of the region
-(top), while the expression probes are on the columns, from start
-of the region (left) to end of the region (right). Every cell in the
-heatmap represents association between an individual copy number and
-expression probe (z-score).
+The association heatmap can only be drawn when z-scores have been calculated in the \Rfunction{integrated.analysis} (\Robject{zscores=TRUE}). The function \Rfunction{sim.plot.zscore.heatmap} produces an association heatmap that shows the association (standardized influence) of each independent feature (expression measurement) with each dependent feature (copy number measurement). The copy number measurements are represented by the rows, whilst the expression measurements are represented by the columns. One heatmap representing each region is produced and stored in the folder \texttt{heatmap.zscores}. The copy number probes are on the rows, from start of region (bottom) to end of the region (top), while the expression probes are on the columns, from start of the region (left) to end of the region (right). Every cell in the heatmap represents association between an individual copy number and expression probe (z-score).
 
-To indicate the significant copy number measurements (p-value $\le{}0.2$) a yellow
-box is draw in place of the significant row left and right to the association heatmap. 
-The significant z-scores are indicated by the colours given by the colour key below the
-associated heatmap, in this case dark blue indicates positive z-scores.
-An optional panel gives an overview of the copy number data per sample, representing
-it either as a heatmap or as smoothed medians \cite{paulsmoothcgh}.
+To indicate the significant copy number measurements (p-value $\le{}0.2$) a yellow box is draw in place of the significant row left and right to the association heatmap. The significant z-scores are indicated by the colours given by the colour key below the associated heatmap, in this case dark blue indicates positive z-scores. An optional panel gives an overview of the copy number data per sample, representing it either as a heatmap or as smoothed medians \cite{paulsmoothcgh}.
 
-The heatmaps can also be used in an exploratory analysis, looking
-for very local effects of copy number changes (usually narrow amplifications)
-on gene expression, that do not always lead to a significant test
-result.
+The heatmaps can also be used in an exploratory analysis, looking for very local effects of copy number changes (usually narrow amplifications) on gene expression, that do not always lead to a significant test result.
 
-Since heatmaps for high-density array platforms can be rather large, it 
-takes some time to produce them. When running multiple chromosomal regions, 
-the default option \Robject{pdf=TRUE} directly saves the graphs into a subdirectory 
-of the run.name folder. 
+Since heatmaps for high-density array platforms can be rather large, it takes some time to produce them. When running multiple chromosomal regions, the default option \Robject{pdf=TRUE} directly saves the graphs into a subdirectory of the run.name folder. 
 
-In this example we use the \Rpackage{RColorBrewer} package for a nice diverging colour palette.
-We also adapted the scale of the added smoothed medians plot.
+In this example we use the \Rpackage{RColorBrewer} package for a nice diverging colour palette. We also adapted the scale of the added smoothed medians plot.
 
 %hack to get par-settings right after heatmap
 <<echo=FALSE>>= 
-opar <- par()
+opar <- par(no.readonly = TRUE)
 @
 
 <<>>=
@@ -538,19 +311,12 @@ par(opar)
 \end{figure}
 
 
-Note that individual z-scores only depend on the pair of probes involved
-and, thus, values are exactly the same regardless of the region the
-model was applied to: the entire genome, a single chromosome or a
-sub-chromosomal region. However, in contrast to the z-scores, p-values
-corresponding to each test will change depending on the region considered.
+Note that individual z-scores only depend on the pair of probes involved and, thus, values are exactly the same regardless of the region the model was applied to: the entire genome, a single chromosome or a sub-chromosomal region. However, in contrast to the z-scores, p-values corresponding to each test will change depending on the region considered.
 
 
 \subsection{Prioritizing candidate regions and genes}
 
-The p-values for the copy number probes, representing significance
-of association with gene expression in the region, are available in
-a tab-delimited text file for each analyzed region, sorted on significance or 
-as a \Robject{list} of \Robject{data.frame}'s for each input region:
+The p-values for the copy number probes, representing significance of association with gene expression in the region, are available in a tab-delimited text file for each analyzed region, sorted on significance or as a \Robject{list} of \Robject{data.frame}'s for each input region:
 
 <<>>=
 table.dep <- tabulate.top.dep.features(input.regions = "8q",                                      
@@ -566,10 +332,7 @@ table.indep <- tabulate.top.indep.features(input.regions = "8q",
 head(table.dep[["8q"]])                        
 @
 
-The genes with the highest mean z-scores across the signficant copy
-number probes (user defined threshold, here 0.2), can be found in
-a tab-delimited text file for each analyzed region, sorted on mean
-z-score.
+The genes with the highest mean z-scores across the signficant copy number probes (user defined threshold, here 0.2), can be found in a tab-delimited text file for each analyzed region, sorted on mean z-score.
 
 <<results=hide>>=
 sim.plot.overlapping.indep.dep.features(input.regions="8q", 
@@ -600,54 +363,27 @@ sim.plot.overlapping.indep.dep.features(input.regions="8q",
 
 \label{categ.data}
 
-Both copy number and expression values are taken as continuous variables,
-so no categorization is done. We believe part of the strength of this
-approach is to be able to detect associations between subtle changes
-in copy number and expression, so that categorization is undesirable.
-Also, without categorization, the actual levels of copy number aberration
-are taken into account. However, it is possible to use the same model
-if it is preferable to categorize the data. If for example the copy
-number is categorized as having either ''change'' or ''no change'',
-the same model with a logistic link could be used.
+Both copy number and expression values are taken as continuous variables, so no categorization is done. We believe part of the strength of this approach is to be able to detect associations between subtle changes in copy number and expression, so that categorization is undesirable. Also,  without categorization, the actual levels of copy number aberration are taken into account. However, it is possible to use the same model if it is preferable to categorize the data. If for example the copy number is categorized as having either ''change'' or ''no change'', the same model with a logistic link could be used.
 
 
 \subsection{Other applications of the model}
 
-Our example in section \ref{integrated.example} uses the proposed
-approach to answer the question: which genes have copy number associated
-with the expression levels of genes on the same chromosomal region?
-This suggests using copy number as dependent and expression as independent
-variables.
+Our example in section \ref{integrated.example} uses the proposed approach to answer the question: which genes have copy number associated with the expression levels of genes on the same chromosomal region? This suggests using copy number as dependent and expression as independent variables.
 
-In other cases, there might be interest in finding genes whose expression
-levels are associated with copy number changes in and around a fixed
-region. Expression-regulating mechanisms may involve not only copy
-number, but also epigenetic and sequence changes, and it may thus
-be of interest to identify genes whose regulation is closely associated
-with one of those mechanisms and apply the model to SNP and methylation
-microarray data.
+In other cases, there might be interest in finding genes whose expression levels are associated with copy number changes in and around a fixed region. Expression-regulating mechanisms may involve not only copy number, but also epigenetic and sequence changes, and it may thus be of interest to identify genes whose regulation is closely associated with one of those mechanisms and apply the model to SNP and methylation microarray data.
 
 
 \section*{sessionInfo}
 
-The \Rpackage{SIM} package 1.14.0 can be run in R version 2.9 and
-higher R versions. For this example the following package versions were
-used:
+The \Rpackage{SIM} package \Sexpr{packageVersion("SIM")} can be run in R version 2.9 and higher R versions. For this example the following package versions were used:
 
 <<echo=FALSE,results=tex>>=
 toLatex(sessionInfo())
 @
 
-
 \section*{Acknowledgements}
 
-We are very grateful to Jelle Goeman for many helpful discussions,
-and to the contributions of Olga Tsoi and Nina Tolmacheva to the first
-version of the package. This work was conducted within the Centre
-for Medical Systems Biology (CMSB), established by the Netherlands
-Genomics Initiative/Netherlands Organisation for Scientific Research
-(NGI/NWO). This work has been partially supported by the project BioRange
-of The Netherlands Bioinformatics Centre (NBIC).
+We are very grateful to Jelle Goeman for many helpful discussions, and to the contributions of Olga Tsoi and Nina Tolmacheva to the first version of the package. This work was conducted within the Centre for Medical Systems Biology (CMSB), established by the Netherlands Genomics Initiative/Netherlands Organisation for Scientific Research (NGI/NWO). This work has been partially supported by the project BioRange of The Netherlands Bioinformatics Centre (NBIC).
 
 \bibliography{SIM}
 

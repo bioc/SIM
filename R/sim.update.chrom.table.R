@@ -1,5 +1,5 @@
 sim.update.chrom.table <- function(db="homo_sapiens_core_40_36b") {                                                     
-    require(RMySQL)
+    warning("Be sure RMySQL is loaded!")
     
     ensemblDb <- dbConnect(MySQL(), user="anonymous", db=db, host="ensembldb.ensembl.org")
     

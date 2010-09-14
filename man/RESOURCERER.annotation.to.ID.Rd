@@ -22,9 +22,9 @@ RESOURCERER.annotation.to.ID(data, poslist, col.ID.link = 1, col.poslist.link = 
 }
 
 \details{
-This function will output the inserted dataset, including the necessary, for \link{integrated.analysis},
-annotation columns: \code{"CHROMOSOME"}, \code{"STARTPOS"}and \code{"Symbol"} out of the inserted RESOURCERER
-annotation file \code{poslist}.
+This function will output the inserted dataset, including the necessary, for \link{integrated.analysis}, a
+nnotation columns: \code{"CHROMOSOME"}, \code{"STARTPOS"}and \code{"Symbol"} out of the inserted RESOURCE
+RER annotation file \code{poslist}.
 }
 
 \value{A \code{data.frame} is returned, containing a dataset with annotation columns which can be used for

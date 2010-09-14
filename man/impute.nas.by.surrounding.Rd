@@ -25,7 +25,7 @@ impute.nas.by.surrounding(dataset,
 function is array-CGH data and contains probes that have an NA. To avoid loosing data by 
 throwing away the probes with NA's, the impute.nas.by.surrounding function can be 
 used which simply takes the median of the probes around an NA. The number of probes used 
-for the imputation is chosen by giving a value for window.size. This script takes quite long to run!}
+for the imputatin is chosen by giving a value for window.size. This script takes quite long to run!}
 
 \value{
 A \code{data.frame} is returned, containing the inserted \dQuote{dataset} all \code{NA} replaced with median of the window of 

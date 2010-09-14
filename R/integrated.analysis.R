@@ -59,9 +59,7 @@ predefinedRegions <- function(x, excluded.arms=c("13p", "14p", "15p", "21p", "22
     #convert UCSC format to default
     x <- gsub("^chr", "", x)
     x <- gsub(":", " ", x)	
-    switch(x,
-            `whole genome`=c("1p", "Yq"),
-            `whole genome auto`=c("1p", "22q"),
+    switch(x, #`whole genome`=c("1p", "Yq"),  #`whole genome auto`=c("1p", "22q"),
             `all chrs`=c(1:22, "X", "Y"),
             `all chrs auto`=c(1:22),
             `all arms`=setdiff(c(paste(c(1:22, "X", "Y"), "p", sep=""), paste(c(1:22, "X", "Y"), "q", sep="")) , excluded.arms),
@@ -120,6 +118,19 @@ Bases <- function(chrx, top, bottom)
 ###############################################################################
 getGenomicRegion <- function(input.region, rescale=1e9) 
 {	
+		if(input.region == "whole genome"){
+	    region1 <- getGenomicRegion("1p")
+	    regionY <- getGenomicRegion("Yq")
+	    region <-  data.frame(absolute.start=region1$absolute.start, absolute.end=regionY$absolute.end)
+			return(region)
+    }
+    else if(input.region == "whole genome auto"){
+	    region1 <- getGenomicRegion("1p")
+	    regionY <- getGenomicRegion("22q")
+	    region <-  data.frame(absolute.start=region1$absolute.start, absolute.end=regionY$absolute.end)
+			return(region)
+    } 
+    
     input.region <- as.character(input.region)
     
     extractChr <- function(x) {chr <- unlist(strsplit(x, "[^0-9|xy|XY]{1,2}"))[1]; ifelse(nchar(chr) > 0, chr, NA)}
@@ -215,7 +226,8 @@ integrated.analysis <- function (samples,
     
     ofZscoresInputRegion <- file.path(run.name, method, "zmat.%s") 
     ofPvaluesInputRegion <- file.path(run.name, method, "gpvals.pat.c.%s")
-    
+    ofSubset <- file.path(run.name, method, "subset.%s.RData")
+
     #get the datasets
     load(ifDepData)
     load(ifIndepData)
@@ -312,8 +324,9 @@ integrated.analysis <- function (samples,
         subset <- withinWindow(x, y, w=window, sort=FALSE)
         
         #remove empty subsets?
-        save(subset, file=file.path(run.name, method, "subset.RData"))
+        save(subset, file=sprintf(ofSubset, input.region))
         
+
         result <- runIA(dep.data.region, indep.data.region, zscores, subset, adjust, ...)	
         
         ##STORE MODIFIED DATA IN METHOD SPECIFIC DIRECTORY
@@ -346,7 +359,8 @@ integrated.analysis <- function (samples,
                     "\nadjust            :", paste(adjust, collapse="")),						
             if(method == "window") 
                 paste("\ndependent end     :", dep.end,
-                        "\nwindow            :", paste(window, collapse=", ")),						 
+                        "\nwindow            :", paste(window, collapse=", ")),
+            paste("\nintegrated analysis    :\n"), result$log,
             file=file.path(run.name, paste("log_file_", format(Sys.time(), "%a_%b_%d_%Hh_%Mm_%Ss_%Y"), ".txt", sep="")))
     
 }

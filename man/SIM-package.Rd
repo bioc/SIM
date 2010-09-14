@@ -15,7 +15,7 @@ expression measurements on the same samples.
 A region of interest can be chosen to run the integrated analysis on either the same region for both dependent and 
 independent datasets or different regions. For each dependent feature a P-value measures the association with the
 independent data, the contribution of each independent feature is given as Z-scores. The integrated analysis 
-is based on the random-effect model for gene-sets as implemented in \link[globaltest:v4_globaltest]{globaltest}.
+is based on the random-effect model for gene-sets as implemented in \link[globaltest:gt]{gt}.
 
 maybe something about annotation?
 
@@ -24,7 +24,7 @@ This method accounts for dependence between measurements and is more conservativ
 For details on the multiple testing correction methods see \link[stats:p.adjust]{p.adjust}. 
 We have experienced that a rather low stringency cut-off on the BY-values of 
 20\% allows the detection of associations for data with a low number of samples or a low 
-frequency of aberrations. False positives are rarely observed.
+frequency of abberations. False positives are rarely observed.
 
 Make sure that the array probes are mapped to the same builds of the genome, and that the 
 \link{chrom.table} used by the \link{integrated.analysis} is from the same build as well.
@@ -35,8 +35,8 @@ See \link{sim.update.chrom.table}.
 \tabular{ll}{
 Package: \tab SIM\cr
 Type: \tab Package\cr
-Version: \tab 1.99.0\cr
-Date: \tab 2009-08-13\cr
+Version: \tab 1.7.1\cr
+Date: \tab 2010-09-14\cr
 License: \tab Open\cr}
 }
  

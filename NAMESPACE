@@ -1,19 +1,44 @@
-importMethodsFrom(globaltest, p.value, size)
+importFrom(stats, 
+           p.adjust)
 
-importFrom(globaltest, gt, gt.options)
+importFrom(grDevices,
+           pdf, 
+           dev.off)
 
-importFrom(graphics, abline, axis, axTicks, box, hist, image, layout,
-           legend, lines, locator, matlines, matplot, mtext, par, plot,
-           plot.new, plot.window, points, polygon, rect, segments,
-           strwidth, title)
+importFrom(graphics, 
+           image,
+           hist, 
+           segments, 
+           rect, 
+           polygon, 
+           matplot, 
+           matlines,           
+           plot,
+           lines,           
+           abline,
+           points,
+           axis,
+           axTicks,
+           title,
+           mtext,
+           legend,
+           layout,
+           par,
+           locator,
+           plot.new,
+           plot.window)
 
-importFrom(grDevices, colorRampPalette, dev.new, dev.off, pdf, rainbow)
+importFrom(globaltest,  
+           gt.options, 
+           gt, 
+           size, 
+           p.value)
 
-importFrom(quantsmooth, quantsmooth)
+importMethodsFrom(globaltest, 
+                  summary)
 
-importFrom(stats, aggregate, median, na.omit, p.adjust)
-
-importFrom(utils, data, flush.console, type.convert, write.table)
+importFrom(quantsmooth, 
+           quantsmooth)
 
 export(assemble.data, 
        integrated.analysis, 

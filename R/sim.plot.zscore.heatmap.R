@@ -1,7 +1,7 @@
 #add colour key to plot
 colourKey <- function(zlim, colRamp)
 {	
-    colKey <- seq(zlim[1], zlim[2], length=length(colRamp))
+		colKey <- seq(zlim[1], zlim[2], length=length(colRamp))
     image(x=colKey, z=as.matrix(colKey), col=colRamp, yaxt="n", xaxt="n", xlim=zlim, ann=FALSE)
     ax <- axTicks(1)	
     xlabMin <- substitute(xmin <= NULL, list(xmin=ax[1]))			   
@@ -9,6 +9,40 @@ colourKey <- function(zlim, colRamp)
     xlab <- c(do.call("expression", list(xlabMin)), ax[-c(1, length(ax))], do.call("expression", list(xlabMax)))   
     axis(1, at=ax, labels=xlab)
 }
+
+##new colourkey-function as suggested by Josine Min
+#add colour key to plot
+#colourKey <- function(zlim, colRamp)
+#{	
+#	#zlim must be symmetric
+#	#zlim <- c(-5, 5) 	
+
+#	if(length(colRamp) < 2*zlim[2]-1)	
+#		lngth	<- length(colRamp) - 1
+#	else
+#		lngth	<- 2*zlim[2]
+
+#	xleft <- seq(zlim[1], zlim[2]-1, length=lngth) 
+#	ybottom <- rep(0, lngth-1)
+#	xright <- xleft + 1
+#	ytop <- rep(1, lngth-1)
+
+#	xleft <- xleft[-c(lngth/2+1)]
+#	xright <- xright[-c(lngth/2)]
+
+#	plot(c(xleft, xright), c(ybottom, ytop), type='n', xlim=zlim, ylim=c(0, 1), yaxt="n", xaxt="n", ann=FALSE)
+#	rect(xleft, ybottom, xright, ytop, col = colRamp, border=colRamp)
+
+#	ax <- axTicks(1)
+	#ax <- seq(zlim[1]+1, zlim[2]-1) 
+#	xlabMin <- substitute(xmin <= NULL, list(xmin=ax[1]))			   
+#	xlabMax <-  substitute(NULL >= xmax, list(xmax=ax[length(ax)]))
+#	xlab <- c(do.call("expression", list(xlabMin)), ax[-c(1, length(ax))], do.call("expression", list(xlabMax)))   
+#	axis(1, at=ax, labels=xlab)
+#}
+
+
+
 
 #function to generate a quantsmooth plot next to the heatmap
 quantsmooth.plot <- function(x, smooth.lambda, segment=min(nrow(x), 100), xlim, ylim=c(1, nrow(x)), col, ...)
@@ -80,8 +114,8 @@ independent.heatmap <- function(z, zlim, sign.p.values, sign.z.scores.neg, sign.
     x <- do.call(":", as.list(xlim))
     y <- do.call(":", as.list(ylim))
     
-    z <- z[x,]
-    z <- z[,y]
+    z <- z[x,,drop=FALSE]
+    z <- z[,y,drop=FALSE]
     
     xlim <- c(xlim[1] - 0.5, xlim[2] + 0.5)
     ylim <- c(ylim[1] - 0.5, ylim[2] + 0.5)
@@ -125,12 +159,19 @@ heatmap <- function(dep.data, z.scores, adjusted.p.values, significance, z.thres
     
     sign.z.scores <- z.scores[sign.p.values, , drop=FALSE] 
     
-    mean.z.scores <- apply(sign.z.scores, 2, mean, na.rm=TRUE)
+		if(length(z.threshold) == 1) { #mean over absolute value of z.scores
+   		mean.z.scores <- apply(abs(sign.z.scores), 2, mean, na.rm=TRUE)    
+    	mean.z.scores[is.nan(mean.z.scores)] <- 0 #make them unsignificant	
+			sign.z.scores.neg <- mean.z.scores <= -z.threshold    
+    	sign.z.scores.pos <- mean.z.scores >= z.threshold
+
+		} else {
+    	mean.z.scores <- apply(sign.z.scores, 2, mean, na.rm=TRUE)    
+    	mean.z.scores[is.nan(mean.z.scores)] <- 0 #make them unsignificant
+			sign.z.scores.neg <- mean.z.scores <= -z.threshold    
+    	sign.z.scores.pos <- mean.z.scores >= z.threshold
+    }	
     
-    mean.z.scores[is.nan(mean.z.scores)] <- 0 #make them unsignificant
-    
-    sign.z.scores.neg <- mean.z.scores <= -z.threshold    
-    sign.z.scores.pos <- mean.z.scores >= z.threshold
       
     #scale the zscores 
     if(missing(scale)){
@@ -152,6 +193,10 @@ heatmap <- function(dep.data, z.scores, adjusted.p.values, significance, z.thres
     else		
         add.scale <- sort(add.scale)
     
+		#either a vector of colors or a function to generate them
+		if(!is.vector(colRamp))
+			colRamp <- colRamp(2*zlim[2]-1)
+
     #define colors		
     col.sign.p.values <- "gold"		
     col.sign.mean.z.scores.neg <- colRamp[1]
@@ -264,7 +309,7 @@ sim.plot.zscore.heatmap <- function(input.regions="all chrs",
         adjust=~1, 
         significance=0.2, 
         z.threshold=3, 
-        colRamp=colorRampPalette(c("red", "black", "green"))(7),
+        colRamp=colorRampPalette(c("red", "black", "green")),
         add.colRamp=colorRampPalette(c("blue", "black", "yellow"))(7), 
         show.names.indep=FALSE, 
         show.names.dep=FALSE,
@@ -399,6 +444,8 @@ sim.plot.zscore.heatmap <- function(input.regions="all chrs",
             on.exit(options(error=NULL))
             ofPDFfull <- sprintf(ofPDF, input.region)            
             pdf(ofPDFfull, ...)
+						#ofJPEGfull <- gsub("pdf", "jpeg", ofPDFfull)
+						#jpeg(ofJPEGfull, quality=100, ...)
         } 
         
         h <- heatmap(dep.data.region, z.scores, adjusted.p.values, significance, z.threshold, colRamp, add.colRamp, add.plot, adjust, 

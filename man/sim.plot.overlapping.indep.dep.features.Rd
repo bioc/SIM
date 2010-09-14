@@ -86,7 +86,7 @@ run.name = "analysis_results", ...)
 	
 	\item{run.name}{This must be the same a given to \code{integrated.analysis}}
 	
-	\item{...}{Arguments to be passed to \code{pdf} when \code{pdf = TRUE}.}
+	\item{...}{not used in this version}
 }
 \details{
 	details: Cytobands plot adapted from SNPChip

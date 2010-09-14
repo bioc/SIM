@@ -1,6 +1,6 @@
 \name{integrated.analysis}
 \alias{integrated.analysis}
-\title{Integrated analysis of dependent and independent microarray data}
+\title{Integrated analysis of dependent and indepedent microarray data}
 \description{Runs the Integrated Analysis to test for associations between dependent and independent microarray data 
              on the same set of samples.}
 

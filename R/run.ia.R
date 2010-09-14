@@ -85,27 +85,29 @@ runIA <- function(Y, X, zscores, subset, adjust, ...) #parameters passed to glob
     }#end for-loop
     
     if(exists("object"))
-    {	
+    {   
         #get globaltest object information taken from globaltest summary
         df <- object@functions$df()
         nperms <- object@functions$nperms()
         
-        cat("    ... summary results of 'integrated.analysis()' on last feature:\n")	
-        cat("    ... \"gt.object\" object from package globaltest\n")
-        cat("    ... Call:\n")
-        cat("    ... ", deparse(object@call), "\n")	
-        cat("    ... Model:", object@model, "regression.\n")
-        cat("    ... Degrees of freedom:", df[1], "total;", df[2], "null;", df[2], "+", df[3], "alternative.\n")
-        cat("    ... Null distibution: ")	
+        log <- paste("    ... summary results of 'integrated.analysis()' on last feature:\n",   
+                     "    ... \"gt.object\" object from package globaltest\n",
+                     "    ... Call:\n",
+                     "    ... ", deparse(object@call), "\n",    
+                     "    ... Model:", object@model, "regression.\n",
+                     "    ... Degrees of freedom:", df[1], "total;", df[2], "null;", df[2], "+", df[3], "alternative.\n",
+                     "    ... Null distibution: ")  
         if (nperms[1]) {
-            cat(if(!nperms[2]) "all", nperms[1], if(nperms[2]) "random", "permutations.\n")
+            log <- c(log, paste(if(!nperms[2]) "all", nperms[1], if(nperms[2]) "random", "permutations.\n"))
         } else {
-            cat("asymptotic.\n")
+            log <- c(log, "asymptotic.\n")
         }
-        cat("\n")
+        log <- c(log, "\n")
     }
     else
-        cat("    ... there where no independent features for running the 'globaltest()'!\n")
-    list(zscores=associatedZscores, pvalues=pValues)
+        log <- c(log, "    ... there where no independent features for running the 'globaltest()'!\n")
+    
+    cat(log) #show log on screen    
+    list(zscores=associatedZscores, pvalues=pValues, log=log)
 }
 
