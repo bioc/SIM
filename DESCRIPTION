@@ -9,4 +9,4 @@ Depends: R (>= 2.4), quantreg
 Suggests: biomaRt
 Description: Finds associations between two human genomic datasets.
 License: GPL (>= 2)
-biocViews: Microarray, DNACopyNumber, Bioinformatics, Visualization
+biocViews: Microarray, Bioinformatics, Visualization
