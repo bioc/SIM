@@ -21,7 +21,7 @@
 Center for Human and Clinical Genetics,\\
 Leiden University Medical Center, The Netherlands\\
 Package SIM, version \Sexpr{packageVersion("SIM")}\\
-\texttt{R.X.Menezes@LUMC.NL}}
+\texttt{R.Menezes@VUmc.NL}}
 
 \usepackage{babel}
 
