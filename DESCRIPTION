@@ -3,7 +3,7 @@ Type: Package
 Title:  Integrated Analysis on two human genomic datasets
 Version: 1.29.1
 Author: Renee X. de Menezes and Judith M. Boer
-Maintainer: Maarten van Iterson <M.van_iterson.HG@lumc.nl>
+Maintainer: Maarten van Iterson <mviterson@gmail.com>
 Imports: graphics, stats, globaltest, quantsmooth
 Depends: R (>= 2.4), quantreg
 Suggests: biomaRt, RColorBrewer
