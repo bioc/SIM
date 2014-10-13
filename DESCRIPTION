@@ -1,7 +1,7 @@
 Package: SIM
 Type: Package
 Title: Integrated Analysis on two human genomic datasets
-Version: 1.36.0
+Version: 1.37.0
 Author: Renee X. de Menezes and Judith M. Boer
 Maintainer: Renee X. de Menezes <r.xavierdemenezes@vumc.nl>
 Imports: graphics, stats, globaltest, quantsmooth
