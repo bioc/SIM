@@ -1,7 +1,13 @@
 importFrom(stats, 
-           p.adjust)
+           p.adjust,
+           aggregate,
+           median,
+           na.omit)
 
 importFrom(grDevices,
+           dev.new,
+           rainbow,
+           colorRampPalette,
            pdf, 
            dev.off)
 
@@ -36,6 +42,9 @@ importFrom(globaltest,
 
 importMethodsFrom(globaltest, 
                   summary)
+
+importFrom("utils", "data", "flush.console", "type.convert",
+             "write.table")
 
 importFrom(quantsmooth, 
            quantsmooth)
