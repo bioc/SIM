@@ -3,9 +3,9 @@ Type: Package
 Title: Integrated Analysis on two human genomic datasets
 Version: 1.57.0
 Author: Renee X. de Menezes and Judith M. Boer
-Maintainer: Renee X. de Menezes <r.xavierdemenezes@vumc.nl>
+Maintainer: Renee X. de Menezes <r.menezes@nki.nl>
 Imports: graphics, stats, globaltest, quantsmooth
-Depends: R (>= 2.4), quantreg
+Depends: R (>= 3.5), quantreg
 Suggests: biomaRt, RColorBrewer
 Description: Finds associations between two human genomic datasets.
 License: GPL (>= 2)
