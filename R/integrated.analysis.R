@@ -244,7 +244,7 @@ integrated.analysis <- function (samples,
     indep.data <- indep.data[, indep.samples] 
     dep.data <- dep.data[, dep.samples]
     
-    if(!(apply(dep.data, 2, is.numeric) || apply(indep.data, 2, is.numeric)))
+    if(!(all(apply(dep.data, 2, is.numeric)) || all(apply(indep.data, 2, is.numeric))))
         stop("Dependent or independent data contains non-numeric values.")
     
     if(sum(is.na(dep.data)) > 0)	
