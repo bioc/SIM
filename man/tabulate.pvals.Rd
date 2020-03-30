@@ -85,7 +85,7 @@ tabulate.pvals(input.regions = "all chrs",
 #and example(integrated.analysis)
 tabulate.pvals(input.regions="8q",
 		       adjust.method="BY", 
-			   bins=c(0.001,0.005,0.01,0.025,0.05,0.075,0.10,0.20,1.0),			   			    
+			   bins=c(0.001,0.005,0.01,0.025,0.05,0.075,0.10,0.20,1.0),	
 			   run.name="chr8q") 
 }
 \keyword{misc}

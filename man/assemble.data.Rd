@@ -106,26 +106,46 @@ If \code{assemble.data} has run succesfully, the \link{integrated.analysis} func
 }
 
 \examples{
-#load the datasets and the samples to run the integrated analysis
-data(expr.data)
-data(acgh.data)
-data(samples) 
-         
+# Generate datasets and the samples to run the integrated analysis
+set.seed(53245)
+ngenes <- 100
+nsamples <- 100
+# generate copy number measurements
+x <- matrix(rnorm(n = ngenes*nsamples), nrow = ngenes, ncol = nsamples)
+# add mean shift effect for half of the samples, copy gain for 2nd half of the genes
+x[ seq_len(ngenes/2), seq_len(nsamples/2)] <- x[ seq_len(ngenes/2), seq_len(nsamples/2)] + 2
+# generate gene expression with normal distribution and mean equal to gene copy number
+y <- rnorm(n = ngenes*nsamples, mean = matrix(x, nrow = ngenes*nsamples, ncol = 1), sd = 0.8)
+y <-  matrix(y, nrow = ngenes, ncol = nsamples)
+samples <- paste0("S", seq_len(nsamples))
+colnames(x) <- colnames(y) <- samples
+# Making data objects 
+acgh.data <- data.frame(ID = paste0("G", seq_len(ngenes)),
+                     CHROMOSOME = rep(1, ngenes),
+                     STARTPOS = seq_len(ngenes)*12*10^5,
+                     Symbol = paste0("Gene", seq_len(ngenes)),
+                     x)
+expr.data <- data.frame(ID = paste0("G", seq_len(ngenes)),
+                        CHROMOSOME = rep(1, ngenes),
+                        STARTPOS = seq_len(ngenes)*12*10^5,
+                        Symbol = paste0("Gene", seq_len(ngenes)),
+                        y)
+
 #assemble the data
 assemble.data(dep.data = acgh.data, 
-              indep.data = expr.data,              
+              indep.data = expr.data,
+              dep.ann = colnames(acgh.data)[1:4], 
+              indep.ann = colnames(expr.data)[1:4], 
               dep.id="ID", 
               dep.chr = "CHROMOSOME",
               dep.pos = "STARTPOS",
-              dep.ann = colnames(acgh.data)[1:4],    
-              dep.symb="Symbol",                          
+              dep.symb="Symbol",  
               indep.id="ID",
               indep.chr = "CHROMOSOME", 
-              indep.pos = "STARTPOS",
-              indep.ann = colnames(expr.data)[1:4], 
-              indep.symb="Symbol",                
+              indep.pos = "STARTPOS", 
+              indep.symb="Symbol", 
               overwrite = TRUE,
-              run.name = "chr8q")
+              run.name = "chr1p")
 }
 \keyword{manip}
 

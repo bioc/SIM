@@ -8,7 +8,7 @@
                            input.regions = "all chrs", 
                            input.region.indep = NULL,	 
                            zscores =  FALSE, 
-                           method = c("full", "smooth", "window", "overlap"),                         
+                           method = c("full", "smooth", "window", "overlap"),  
                            dep.end = 1e5, 
                            window = c(1e6, 1e6), 
                            smooth.lambda=2, 

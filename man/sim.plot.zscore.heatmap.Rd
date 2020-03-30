@@ -170,19 +170,21 @@ A method for calling gains and losses in array CGH data.
 #and example(integrated.analysis)
 
 #plot the zscores in a heatmap
-sim.plot.zscore.heatmap(input.regions = "8q",  adjust.method = "BY", run.name = "chr8q", pdf = FALSE)
+sim.plot.zscore.heatmap(input.regions = "8q",  adjust.method = "BY", 
+                        run.name = "chr8q", pdf = FALSE)
 
 sim.plot.zscore.heatmap(input.regions = "8q", 
                         method="full", 
-                        significance = 0.05,                        
+                        significance = 0.05,
                         z.threshold = 1, 
-                        colRamp = colorRampPalette(c("red", "black", "green"))(15), 
+                        colRamp = colorRampPalette(c("red", "black", 
+                           "green"))(15), 
                         show.names.indep=TRUE, 
                         show.names.dep=TRUE, 
                         adjust.method = "holm",  
                         add.plot = "heatmap", 
-                        smooth.lambda = 2,                        
-                        pdf = FALSE,                         
+                        smooth.lambda = 2,        
+                        pdf = FALSE,            
                         run.name = "chr8q")
                         
 sim.plot.zscore.heatmap(input.regions = "8q", 

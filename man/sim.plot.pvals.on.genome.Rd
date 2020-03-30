@@ -15,7 +15,7 @@ sim.plot.pvals.on.genome(input.regions = "all chrs",
 						 method = c("full", "smooth", "window", "overlap"),		
 						 run.name = "analysis_results",
 						 pdf = TRUE, 
-						 main = "Significantly associated features",						 
+						 main = "Significantly associated features",
 						 ylab = "Chromosomes",						 
 						 ann=par("ann"),
 						 ...)

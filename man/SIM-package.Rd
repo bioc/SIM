@@ -138,19 +138,19 @@ sim.plot.zscore.heatmap(input.regions = "8q",
                         
 sim.plot.zscore.heatmap(input.regions = "8q", 
                         method="full", 
-                        significance = 0.05,                        
+                        significance = 0.05,
                         z.threshold = 1, 
                         show.names.indep=TRUE, 
                         show.names.dep=TRUE, 
                         adjust.method = "BY",  
-                        add.plot = "none",                                                                      
+                        add.plot = "none",  
                         pdf = FALSE, 
                         run.name = "chr8q")
 
 #tabulate the P-values per region (prints to screen)
 tabulate.pvals(input.regions = "8q", 
                adjust.method="BY", 
-               bins=c(0.001,0.005,0.01,0.025,0.05,0.075,0.10,0.20,1.0),               
+               bins=c(0.001,0.005,0.01,0.025,0.05,0.075,0.10,0.20,1.0), 
                run.name = "chr8q") 
                
 table.dep <- tabulate.top.dep.features(input.regions="8q", 
@@ -163,7 +163,7 @@ head(table.dep[["8q"]])
 table.indep <- tabulate.top.indep.features(input.regions="8q",
 		                                  adjust.method="BY",
 										  method="full",
-										  significance= 0.05,										  
+										  significance= 0.05,	
 										  z.threshold=c(-1, 1),
 										  run.name="chr8q")
 head(table.indep[["8q"]])	
@@ -171,12 +171,11 @@ head(table.indep[["8q"]])
 sim.plot.overlapping.indep.dep.features(input.regions="8q", 
 		                                adjust.method="BY", 
 										significance=0.1, 
-										z.threshold= c(-1,1),                                        
-										log=TRUE,	
-										summarize="consecutive",										
+										z.threshold= c(-1,1), 
+										log=TRUE,
+										summarize="consecutive",
 										pdf=FALSE, 
 										method="full",
 										run.name="chr8q") 									  
-						  
-}
 
+}

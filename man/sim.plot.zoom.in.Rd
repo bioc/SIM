@@ -35,7 +35,9 @@ sim.plot.zoom.in(call)
 #and example(integrated.analysis)
 
 #plot the zscores in a heatmap
-sim.plot <- sim.plot.zscore.heatmap(input.regions = "8q",  adjust.method = "BY", run.name = "chr8q", pdf = FALSE)
+sim.plot <- sim.plot.zscore.heatmap(input.regions = "8q",  
+                                    adjust.method = "BY", 
+                                    run.name = "chr8q", pdf = FALSE)
 #only when runned interactive
 if(interactive())
 	sim.plot.zoom.in(sim.plot)

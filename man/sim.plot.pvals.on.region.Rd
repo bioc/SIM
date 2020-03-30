@@ -73,7 +73,7 @@ P-values below 0.2 are said to be \dQuote{significant}.
 #first run example(assemble.data)
 #and example(integrated.analysis)
 #plot the p-values along the regions
-sim.plot.pvals.on.region(input.regions="8q",							
+sim.plot.pvals.on.region(input.regions="8q",			
 		                 adjust.method="BY", 
 						 method="full", 
 						 run.name="chr8q")

@@ -39,7 +39,8 @@ RER annotation file \code{poslist}.
 
 \examples{
 
-# download expression array annotation from RESOURCERER ftp://occams.dfci.harvard.edu/pub/bio/tgi/data/Resourcerer
+# download expression array annotation from RESOURCERER 
+# ftp://occams.dfci.harvard.edu/pub/bio/tgi/data/Resourcerer
 # it may be necessary to remove the first row, which states the genome build used for mapping
 \dontrun{read.an <- read.delim("affy_U133Plus2.txt", sep="\t", header=T)} 
 

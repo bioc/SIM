@@ -103,7 +103,7 @@ Additionally, the results are stored in a subdirectory of \code{run.name} as txt
 table.indep <- tabulate.top.indep.features(input.regions="8q",
 		                                  adjust.method="BY",
 										  method="full",
-										  significance= 0.05,										  
+										  significance= 0.05,
 										  z.threshold=c(-1, 1),
 										  run.name="chr8q")
 head(table.indep[["8q"]])										  

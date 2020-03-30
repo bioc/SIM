@@ -12,7 +12,7 @@ together with the available annotation.
 \usage{
 tabulate.top.dep.features(input.regions = "all chrs", 
                           adjust.method="BY", 
-                          method = c("full", "smooth", "window", "overlap"),  
+                          method = c("full", "smooth", "window", "overlap"), 
                           significance = 1, 
                           run.name = "analysis_results")
 } 
